@@ -1,0 +1,24 @@
+[gd_scene load_steps=6 format=3 uid="uid://daudio_manager_scene"]
+
+[ext_resource type="Script" path="res://scripts/ui/audio_manager.gd" id="1_script"]
+[ext_resource type="AudioStream" uid="uid://crkdoff6aswib" path="res://assets/audio/bg_music.mp3" id="2_bgm"]
+[ext_resource type="AudioStream" uid="uid://dj6p4e7qk5eoj" path="res://assets/audio/click_sfx.mp3" id="3_click"]
+[ext_resource type="AudioStream" uid="uid://d2p0d5tgpdni1" path="res://assets/audio/hit_sfx.mp3" id="4_hit"]
+[ext_resource type="AudioStream" uid="uid://dnm3dd1pgjqfn" path="res://assets/audio/charon_death_sfx.mp3" id="5_death"]
+
+[node name="AudioManager" type="Node"]
+script = ExtResource("1_script")
+
+[node name="bg_music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_bgm")
+autoplay = true
+bus = &"Music"
+
+[node name="click_sfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_click")
+
+[node name="hit_sfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_hit")
+
+[node name="charon_death_sfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_death")

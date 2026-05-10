@@ -1,16 +1,13 @@
-# Godot 4+ specific ignores
-.godot/
-.nomedia
+# Ignore everything at root level
+/*
 
-# Godot-specific ignores
-.import/
-export.cfg
-export_credentials.cfg
-
-# Imported translations (automatically generated from CSV files)
-*.translation
-
-# Mono-specific ignores
-.mono/
-data_*/
-mono_crash.*.json
+# Track only these
+!/assets/
+!/resources/
+!/scenes/
+!/scripts/
+!/icon.svg
+!/default_bus_layout.tres
+!/export_presets.cfg
+!/README.md
+!/.gitignore

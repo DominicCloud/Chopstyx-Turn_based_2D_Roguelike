@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="RingAsclepius" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/rings/ring_asclepius.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+ring_name = "Ring of Asclepius"
+short_name = "Asclepius"
+description = "Select one of your hands. That hand gains one finger."
+cooldown = 1
+capacity = 2
+min_fingers_needed = 1
+finger_group = "INDEX"
+free_action = true
+ring_color = Color(0.2, 0.95, 0.4, 1)
+ring_letter = "A"
+target_mode = 0
+target_prompt = "Select YOUR hand to gain +1 finger"

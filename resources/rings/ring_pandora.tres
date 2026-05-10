@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="RingPandora" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/rings/ring_pandora.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+ring_name = "Ring of Pandora"
+short_name = "Pandora"
+description = "You can split accounting for both your and Charon's totals. Distribute fingers however you wish."
+cooldown = 6
+capacity = 1
+min_fingers_needed = 4
+finger_group = "PINKY"
+free_action = true
+ring_color = Color(1, 0.3, 0.8, 1)
+ring_letter = "P"
+target_mode = 3
+target_prompt = ""

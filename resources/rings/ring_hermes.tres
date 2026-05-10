@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="RingHermes" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/rings/ring_hermes.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+ring_name = "Ring of Hermes"
+short_name = "Hermes"
+description = "You can do two actions this turn."
+cooldown = 6
+capacity = 1
+min_fingers_needed = 4
+finger_group = "PINKY"
+free_action = true
+ring_color = Color(0.6, 0.2, 1, 1)
+ring_letter = "R"
+target_mode = 2
+target_prompt = ""
