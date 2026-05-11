@@ -1,0 +1,10 @@
+[gd_resource type="LabelSettings" format=3 uid="uid://ct4arlx8wc3oo"]
+
+[ext_resource type="FontFile" uid="uid://bk21tp31ex51e" path="res://assets/fonts/text_bric_gotesque/static/BricolageGrotesque-SemiBold.ttf" id="1_34ndo"]
+
+[resource]
+font = ExtResource("1_34ndo")
+font_size = 32
+shadow_size = 11
+shadow_color = Color(0, 0, 0, 0.60784316)
+shadow_offset = Vector2(2.8, 1.005)

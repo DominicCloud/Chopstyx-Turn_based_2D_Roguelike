@@ -1,0 +1,169 @@
+[gd_scene format=3 uid="uid://cmdt3xwgapgx4"]
+
+[ext_resource type="Script" uid="uid://cm2wtplmclxnp" path="res://scripts/ui/main_menu.gd" id="1_q85j6"]
+[ext_resource type="FontFile" uid="uid://de1owseh2bjou" path="res://assets/fonts/headings_greek_dalek/Dalek.ttf" id="1_sl1te"]
+[ext_resource type="FontFile" uid="uid://df8usrbon6ji0" path="res://assets/fonts/title_norse/Norsebold.otf" id="2_uhagc"]
+[ext_resource type="Texture2D" uid="uid://gj6gnxdb7ujq" path="res://assets/menu_page_ai.png" id="2_wb0q5"]
+[ext_resource type="Texture2D" uid="uid://cmjdrppjrku0" path="res://assets/UI/buttons/main_btn_body.png" id="3_btxxm"]
+[ext_resource type="Texture2D" uid="uid://cxidio08xu7bt" path="res://assets/UI/buttons/main_btn_full.png" id="4_wb0q5"]
+[ext_resource type="LabelSettings" uid="uid://cq33elkgdt6b3" path="res://resources/themes/menu_label_settings.tres" id="5_q85j6"]
+[ext_resource type="Texture2D" uid="uid://ccqaqpkfutjej" path="res://assets/UI/buttons/scnd_btn_body.png" id="6_8g5eo"]
+[ext_resource type="Texture2D" uid="uid://bcory1sahvouh" path="res://assets/UI/buttons/scnd_btn_full.png" id="7_btxxm"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_7suek"]
+font = ExtResource("2_uhagc")
+font_size = 160
+
+[sub_resource type="LabelSettings" id="LabelSettings_1g8jr"]
+font = ExtResource("1_sl1te")
+font_size = 72
+
+[sub_resource type="LabelSettings" id="LabelSettings_m1kxf"]
+resource_local_to_scene = true
+font = ExtResource("1_sl1te")
+font_size = 160
+font_color = Color(1, 0.8, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_fe2o3"]
+resource_local_to_scene = true
+font = ExtResource("1_sl1te")
+font_size = 160
+
+[node name="MainMenu" type="Control" unique_id=1527937563]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_q85j6")
+
+[node name="bg_AI" type="TextureRect" parent="." unique_id=1196752149]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 437.33337
+offset_bottom = 250.66669
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("2_wb0q5")
+expand_mode = 1
+
+[node name="Chopstyx" type="Label" parent="." unique_id=546443121]
+layout_mode = 0
+offset_left = 672.0
+offset_top = 72.0
+offset_right = 1160.0
+offset_bottom = 249.0
+text = "Chopstyx"
+label_settings = SubResource("LabelSettings_7suek")
+
+[node name="PlayButton" type="TextureButton" parent="." unique_id=662771724]
+layout_mode = 0
+offset_left = 832.0
+offset_top = 288.0
+offset_right = 1144.0
+offset_bottom = 456.0
+texture_normal = ExtResource("3_btxxm")
+texture_hover = ExtResource("4_wb0q5")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="PlayButton" unique_id=618833109]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 56.0
+offset_right = 226.0
+offset_bottom = 89.0
+text = "Challenge"
+label_settings = ExtResource("5_q85j6")
+horizontal_alignment = 1
+
+[node name="QuitButton" type="TextureButton" parent="." unique_id=1170522634]
+layout_mode = 0
+offset_left = 864.0
+offset_top = 440.0
+offset_right = 1128.0
+offset_bottom = 592.0
+texture_normal = ExtResource("6_8g5eo")
+texture_hover = ExtResource("7_btxxm")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="QuitButton" unique_id=1892417918]
+layout_mode = 0
+offset_left = 88.0
+offset_top = 56.0
+offset_right = 154.0
+offset_bottom = 95.0
+text = "Quit"
+label_settings = ExtResource("5_q85j6")
+
+[node name="all_black" type="ColorRect" parent="." unique_id=1156630669]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Splashscreen" type="ColorRect" parent="." unique_id=1887489093]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="A" type="Label" parent="Splashscreen" unique_id=1551590309]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 160.0
+offset_right = 201.0
+offset_bottom = 273.0
+text = "A"
+label_settings = SubResource("LabelSettings_1g8jr")
+
+[node name="USCGames" type="Control" parent="Splashscreen" unique_id=1834260714]
+anchors_preset = 0
+offset_left = -72.0
+offset_top = -80.0
+offset_right = -72.0
+offset_bottom = -80.0
+scale = Vector2(1.2, 1.2)
+
+[node name="USC" type="Label" parent="Splashscreen/USCGames" unique_id=1575033398]
+layout_mode = 0
+offset_left = 224.0
+offset_top = 254.0
+offset_right = 508.0
+offset_bottom = 470.0
+text = "USC"
+label_settings = SubResource("LabelSettings_m1kxf")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Games" type="Label" parent="Splashscreen/USCGames" unique_id=587506777]
+layout_mode = 0
+offset_left = 407.0
+offset_top = 208.0
+offset_right = 1047.0
+offset_bottom = 512.0
+text = "Games"
+label_settings = SubResource("LabelSettings_fe2o3")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Production" type="Label" parent="Splashscreen" unique_id=640144735]
+layout_mode = 0
+offset_left = 736.0
+offset_top = 496.0
+offset_right = 1125.0
+offset_bottom = 609.0
+text = "Production"
+label_settings = SubResource("LabelSettings_1g8jr")

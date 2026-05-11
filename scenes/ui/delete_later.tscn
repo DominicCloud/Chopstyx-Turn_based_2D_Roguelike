@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://d2o7xndt2q4s1"]
+
+[ext_resource type="Texture2D" uid="uid://dn66e3msu273g" path="res://assets/UI/buttons/main_btn_border.png" id="1_i1dad"]
+[ext_resource type="Texture2D" uid="uid://ccqjfv3uk1ewr" path="res://assets/charon sprites/potrait.png" id="2_jmhwi"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0v8ba"]
+load_path = "res://.godot/imported/main_btn_body.png-74a8e000e84f260c6ea3df7a8b374999.ctex"
+
+[node name="Control" type="Control" unique_id=1017155570]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="." unique_id=1971472140]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.63100004
+anchor_top = 0.2
+anchor_right = 0.68700004
+anchor_bottom = 0.344
+offset_left = 0.3199463
+offset_right = 0.6399536
+offset_bottom = 0.31999207
+
+[node name="TextureButton" type="TextureButton" parent="." unique_id=620159324]
+layout_mode = 0
+offset_top = 120.0
+offset_right = 944.0
+offset_bottom = 571.0
+texture_normal = SubResource("CompressedTexture2D_0v8ba")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=952570782]
+position = Vector2(554.8945, 447.375)
+scale = Vector2(0.2894044, 0.33406308)
+texture = ExtResource("1_i1dad")
+
+[node name="Button" type="Button" parent="." unique_id=1642593434]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.312
+anchor_top = 0.5558889
+anchor_right = 0.55625
+anchor_bottom = 0.689
+offset_left = 0.63998413
+offset_top = -0.24002075
+offset_bottom = -8.080017
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1758047566]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_jmhwi")

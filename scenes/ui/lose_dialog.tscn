@@ -1,0 +1,126 @@
+[gd_scene format=3 uid="uid://dp8uysvodhpxn"]
+
+[ext_resource type="Script" uid="uid://dxsrp30mnwh4w" path="res://scripts/ui/lose_screen.gd" id="1_r8wn3"]
+[ext_resource type="FontFile" uid="uid://df8usrbon6ji0" path="res://assets/fonts/title_norse/Norsebold.otf" id="2_g3x70"]
+[ext_resource type="Texture2D" uid="uid://ccqaqpkfutjej" path="res://assets/UI/buttons/scnd_btn_body.png" id="3_ec68u"]
+[ext_resource type="Texture2D" uid="uid://bcory1sahvouh" path="res://assets/UI/buttons/scnd_btn_full.png" id="4_m6557"]
+[ext_resource type="LabelSettings" uid="uid://ct4arlx8wc3oo" path="res://resources/themes/button_label_settings.tres" id="5_bw3iv"]
+[ext_resource type="AudioStream" uid="uid://cu7l6xdpd0eii" path="res://assets/audio/charon_wins.mp3" id="6_3d1ax"]
+[ext_resource type="AudioStream" uid="uid://b2cxo3gwtvckc" path="res://assets/audio/defeat_sfx.mp3" id="7_g3x70"]
+[ext_resource type="AudioStream" uid="uid://7fhombjwfm00" path="res://assets/audio/button_hover.mp3" id="8_ec68u"]
+
+[sub_resource type="Gradient" id="Gradient_j85jv"]
+colors = PackedColorArray(0, 0, 0, 1, 0.43201914, 0.024338787, 9.62615e-08, 0.74509805)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_1fadq"]
+gradient = SubResource("Gradient_j85jv")
+fill_from = Vector2(0.5225694, 0.7552083)
+fill_to = Vector2(0.5225694, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_hujq7"]
+font = ExtResource("2_g3x70")
+font_size = 112
+
+[node name="lose_dialogue" type="Control" unique_id=97145014]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_r8wn3")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=645877434]
+layout_mode = 0
+offset_right = 1288.0
+offset_bottom = 720.0
+texture = SubResource("GradientTexture2D_1fadq")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1601944876]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.18550003
+anchor_top = 0.24097222
+anchor_right = 0.81450003
+anchor_bottom = 0.8419723
+offset_left = 0.55996704
+offset_right = -0.55999756
+offset_bottom = 0.27998352
+grow_horizontal = 2
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Game Over" type="Label" parent="VBoxContainer" unique_id=2130946940]
+layout_mode = 2
+text = "Game Over"
+label_settings = SubResource("LabelSettings_hujq7")
+horizontal_alignment = 1
+
+[node name="Control" type="Control" parent="VBoxContainer" unique_id=642688768]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=962316041]
+layout_mode = 2
+size_flags_horizontal = 4
+alignment = 1
+
+[node name="RetryButton" type="TextureButton" parent="VBoxContainer/HBoxContainer" unique_id=2062681781]
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 2
+texture_normal = ExtResource("3_ec68u")
+texture_hover = ExtResource("4_m6557")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/RetryButton" unique_id=564858074]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.365
+anchor_top = 0.44200003
+anchor_right = 0.625
+anchor_bottom = 0.55
+offset_top = -10.400009
+offset_right = -8.0
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Retry"
+label_settings = ExtResource("5_bw3iv")
+horizontal_alignment = 1
+
+[node name="QuitButton" type="TextureButton" parent="VBoxContainer/HBoxContainer" unique_id=1028983553]
+custom_minimum_size = Vector2(400, 200)
+layout_mode = 2
+texture_normal = ExtResource("3_ec68u")
+texture_hover = ExtResource("4_m6557")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/QuitButton" unique_id=198643488]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.415
+anchor_top = 0.39
+anchor_right = 0.575
+anchor_bottom = 0.58
+offset_bottom = 0.9999981
+text = "Quit"
+label_settings = ExtResource("5_bw3iv")
+metadata/_edit_use_anchors_ = true
+
+[node name="Charon_laughing" type="AudioStreamPlayer" parent="." unique_id=356473374]
+stream = ExtResource("6_3d1ax")
+
+[node name="lose_music" type="AudioStreamPlayer" parent="." unique_id=1980428582]
+stream = ExtResource("7_g3x70")
+autoplay = true
+
+[node name="button_hover" type="AudioStreamPlayer" parent="." unique_id=571388821]
+stream = ExtResource("8_ec68u")
+volume_db = -20.0
+
+[connection signal="mouse_entered" from="VBoxContainer/HBoxContainer/RetryButton" to="." method="_on_button_hover"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/RetryButton" to="." method="_on_retry_button_pressed"]
+[connection signal="mouse_entered" from="VBoxContainer/HBoxContainer/QuitButton" to="." method="_on_button_hover"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

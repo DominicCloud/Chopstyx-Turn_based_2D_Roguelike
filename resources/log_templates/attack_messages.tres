@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="LogAttackMessages" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/log_templates/log_attack_messages.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+hit = "⚔ {source} strikes {target} → [b]{fingers} fingers[/b]"
+kill = "[color=#FF4466]💀 {source} strikes {target} — eliminated![/color]"
+hercules_hit = "[color=#FF6600]⚡ {source} unleashes Hercules' might on {target} → [b]{fingers} fingers[/b][/color]"
+hercules_kill = "[color=#FF6600]⚡ HERCULES SMASH! {source} obliterates {target}![/color]"
+aegis_block = "[color=#4D9FFF]⚔ Aegis Shield activated! {target} deflects the attack![/color]"

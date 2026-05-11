@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="LogSplitMessages" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/log_templates/log_split_messages.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+player_split = "[color=#00E5FF]🖐 You redistributed fingers → [{fingers}][/color]"
+opponent_split = "[color=#FF3399]🖐 Charon redistributed fingers → [{fingers}][/color]"
+player_no_hands = "[color=#FFAA00]⚠ You need at least 2 hands to redistribute fingers.[/color]"
+player_no_fingers = "[color=#FFAA00]⚠ No fingers available to redistribute.[/color]"
+invalid_split = "[color=#FFAA00]⚠ Invalid! Total must match current fingers and create a different arrangement.[/color]"
+pandora_invalid = "[color=#FFAA00]⚠ Invalid! Pandora requires the total to match all combined fingers.[/color]"

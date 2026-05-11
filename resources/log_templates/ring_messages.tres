@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="LogRingMessages" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/log_templates/log_ring_messages.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+ring_earned = "[color=#FFD700]✨ {hand} acquired the {ring}![/color]"
+ring_declined = "[color=#888888]You declined the divine gift.[/color]"
+all_rings_full = "[color=#FFAA00]⚠ Your hands are adorned with all the rings they can hold![/color]"
+asclepius_heal = "[color=#33F266]🌿 Asclepius heals {target} → [b]{fingers} fingers[/b][/color]"
+asclepius_burst = "[color=#FF4466]💀 Asclepius overhealed {target} — it burst![/color]"
+aegis_shield = "[color=#4D9FFF]🛡️ Aegis shield guards {target}![/color]"
+aegis_wasted = "[color=#FFAA00]⚠ Aegis shield already guards {target} (wasted)![/color]"
+hercules_charge = "[color=#FF6600]💪 Hercules empowers {target} with legendary strength![/color]"
+hercules_wasted = "[color=#FFAA00]⚠ {target} already has Hercules' strength (wasted)![/color]"
+hermes_action = "[color=#9933FF]⚡ Hermes' speed grants another action! ([b]{remaining} remaining[/b])[/color]"
+icarus_scorch = "[color=#00B34C]☀️ Icarus scorches {target} → [b]{fingers} fingers[/b][/color]"
+icarus_burn = "[color=#00B34C]☀️ Icarus burns {target} to ashes![/color]"
+medusa_petrify = "[color=#3366FF]🐍 Medusa's gaze petrifies {target}![/color]"
+medusa_reinforce = "[color=#3366FF]🐍 Medusa reinforces the petrification on {target}![/color]"
+midas_mark = "[color=#FFB333]👑 Midas' curse marks {target} — Charon will strike it![/color]"
+midas_wasted = "[color=#FFAA00]⚠ {target} already cursed by Midas (wasted)![/color]"
+pandora_chaos = "[color=#FF4DCC]📦 Pandora's chaos redistributes ALL fingers → [{fingers}][/color]"
+pandora_no_fingers = "[color=#FFAA00]⚠ No fingers to redistribute![/color]"

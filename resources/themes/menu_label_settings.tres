@@ -1,0 +1,10 @@
+[gd_resource type="LabelSettings" format=3 uid="uid://cq33elkgdt6b3"]
+
+[ext_resource type="FontFile" uid="uid://df8usrbon6ji0" path="res://assets/fonts/title_norse/Norsebold.otf" id="1_r7ahv"]
+
+[resource]
+font = ExtResource("1_r7ahv")
+font_size = 32
+shadow_size = 4
+shadow_color = Color(0, 0, 0, 0.76862746)
+shadow_offset = Vector2(2, 2)
