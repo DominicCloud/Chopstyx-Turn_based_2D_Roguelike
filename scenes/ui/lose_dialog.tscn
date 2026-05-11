@@ -111,6 +111,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Charon_laughing" type="AudioStreamPlayer" parent="." unique_id=356473374]
 stream = ExtResource("6_3d1ax")
+volume_db = 24.0
 
 [node name="lose_music" type="AudioStreamPlayer" parent="." unique_id=1980428582]
 stream = ExtResource("7_g3x70")

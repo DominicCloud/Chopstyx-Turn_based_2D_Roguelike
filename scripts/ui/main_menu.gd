@@ -22,8 +22,7 @@ func _ready() -> void:
 	Fade.crossfade_execute()
 
 	splashscreen.queue_free()
-	#all_black.queue_free()
-	print("done")
+
 	
 	# begin bg_music
 	menu_bg.volume_db = -80 # Start quiet

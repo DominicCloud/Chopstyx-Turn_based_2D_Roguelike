@@ -279,6 +279,23 @@ func earn_ring(ring_type: Enums.RingType, hand_id: int) -> bool:
 	return true
 
 
+func replace_ring(hand_id: int, old_type: Enums.RingType, new_type: Enums.RingType) -> bool:
+	var hand := get_hand(hand_id)
+	if hand.is_empty() or not hand["alive"] or hand["owner"] != Enums.Owner.PLAYER:
+		return false
+	hand["rings"].erase(old_type)
+	# Transfer cooldown so swapping can't be used to dodge a penalty
+	var old_cd: int = ring_cooldowns.get(old_type, 0)
+	ring_cooldowns[old_type] = 0
+	ring_cooldowns[new_type] = maxi(ring_cooldowns.get(new_type, 0), old_cd)
+	hand["rings"].append(new_type)
+	var ring = Enums.RING_RESOURCES[new_type]
+	log_message.emit(LogTemplates.ring.ring_earned.format({"hand": _hand_label(hand), "ring": ring.ring_name}))
+	rings_changed.emit()
+	hands_changed.emit()
+	return true
+
+
 func can_use_ring(ring_type: Enums.RingType) -> bool:
 	if ring_cooldowns[ring_type] > 0:
 		return false

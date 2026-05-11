@@ -37,6 +37,8 @@ var ai: Node  # AIOpponent
 
 var _pending_ring_earn := false
 var _pending_ring_type: Enums.RingType = Enums.RingType.ASCLEPIUS
+var _pending_ring_hand_id: int = -1
+var _conflicting_ring_type: Enums.RingType = Enums.RingType.ASCLEPIUS
 var _pandora_mode := false
 var _hit_animating := false
 
@@ -63,8 +65,6 @@ func _ready() -> void:
 	# Connect action bar signals
 	action_bar.split_pressed.connect(_on_split_pressed)
 	action_bar.cancel_pressed.connect(_on_cancel_pressed)
-	action_bar.ring_use_requested.connect(_on_ring_use_requested)
-	action_bar.ring_drag_started.connect(_on_ring_drag_started)
 
 	# Connect game state signals
 	GameState.hands_changed.connect(_refresh_hands)
@@ -78,6 +78,8 @@ func _ready() -> void:
 	# Connect dialogs
 	ring_select_panel.ring_selected.connect(_on_ring_selected)
 	ring_select_panel.selection_skipped.connect(_on_ring_select_closed)
+	ring_select_panel.replace_confirmed.connect(_on_ring_replace_confirmed)
+	ring_select_panel.keep_confirmed.connect(_on_ring_keep_confirmed)
 
 	# AI timer
 	ai_timer.timeout.connect(_on_ai_timer_timeout)
@@ -122,7 +124,7 @@ func _add_hand_display(hand: Dictionary, index: int, container: HBoxContainer) -
 	container.add_child(display)
 	display.setup(hand["id"], hand, index)
 	display.hand_clicked.connect(_on_hand_clicked)
-	display.ring_dropped.connect(_on_ring_dropped)
+	display.ring_activated.connect(_on_ring_activated)
 	hand_displays[hand["id"]] = display
 
 # === STATE MACHINE ===
@@ -193,6 +195,8 @@ func _set_state(new_state: Enums.ActionState) -> void:
 		Enums.ActionState.GAME_OVER:
 			status_label.text = "Game Over"
 			_set_all_hands_not_selectable()
+
+	_update_ring_interactability(new_state)
 
 # === BUTTON HANDLERS ===
 
@@ -268,9 +272,21 @@ func _on_hand_clicked(hand_id: int) -> void:
 			var hand := GameState.get_hand(hand_id)
 			if hand.is_empty() or not hand["alive"] or hand["owner"] != Enums.Owner.PLAYER:
 				return
-			GameState.earn_ring(_pending_ring_type, hand_id)
-			_pending_ring_earn = false
-			_continue_after_ring_earn()
+			var new_ring_res = Enums.RING_RESOURCES[_pending_ring_type]
+			var conflict_type: int = -1
+			for existing in hand["rings"]:
+				var er = Enums.RING_RESOURCES[existing as Enums.RingType]
+				if er.finger_group == new_ring_res.finger_group:
+					conflict_type = existing
+					break
+			if conflict_type >= 0:
+				_pending_ring_hand_id = hand_id
+				_conflicting_ring_type = conflict_type as Enums.RingType
+				ring_select_panel.open_replace_prompt(_conflicting_ring_type, _pending_ring_type)
+			else:
+				GameState.earn_ring(_pending_ring_type, hand_id)
+				_pending_ring_earn = false
+				_continue_after_ring_earn()
 
 # === SPLIT PANEL ===
 
@@ -314,37 +330,29 @@ func _on_ring_use_requested(ring_type: Enums.RingType) -> void:
 			_set_state(Enums.ActionState.SPLIT_DIALOG)
 
 
-func _on_ring_drag_started(ring_type: Enums.RingType) -> void:
-	if current_state != Enums.ActionState.CHOOSE_ACTION:
+func _on_ring_activated(p_hand_id: int, ring_type: Enums.RingType) -> void:
+	if current_state != Enums.ActionState.CHOOSE_ACTION and current_state != Enums.ActionState.HIT_SELECT_TARGET:
 		return
 	if not GameState.can_use_ring(ring_type):
 		return
+	# Reset hit selection so the ring-use guard passes
+	hit_source_id = -1
+	current_state = Enums.ActionState.CHOOSE_ACTION
+	_on_ring_use_requested(ring_type)
 
-	active_ring_type = ring_type
-	var ring = Enums.RING_RESOURCES[ring_type]
 
-	match ring.target_mode:
-		RingEffectClass.TargetMode.NO_TARGET:
-			if GameState.use_ring(ring_type, {}):
-				_after_ring_action()
-		RingEffectClass.TargetMode.SPECIAL_DIALOG:
-			_pandora_mode = true
-			_set_state(Enums.ActionState.SPLIT_DIALOG)
+func _update_ring_interactability(state: Enums.ActionState) -> void:
+	match state:
+		Enums.ActionState.CHOOSE_ACTION:
+			for hand in GameState.get_player_hands():
+				if hand_displays.has(hand["id"]):
+					hand_displays[hand["id"]].set_rings_interactable(true)
+		Enums.ActionState.HIT_SELECT_TARGET:
+			for hid in hand_displays:
+				hand_displays[hid].set_rings_interactable(hid == hit_source_id)
 		_:
-			_set_state(Enums.ActionState.RING_DRAG)
-
-
-func _on_ring_dropped(hand_id: int, ring_type: Enums.RingType) -> void:
-	if current_state != Enums.ActionState.RING_DRAG:
-		return
-	if ring_type != active_ring_type:
-		return
-
-	if hand_displays.has(hand_id):
-		hand_displays[hand_id].play_hit_flash()
-
-	if GameState.use_ring(ring_type, {"target_id": hand_id}):
-		_after_ring_action()
+			for hid in hand_displays:
+				hand_displays[hid].set_rings_interactable(false)
 
 
 func _after_ring_action() -> void:
@@ -395,6 +403,20 @@ func _on_ring_select_closed() -> void:
 		_on_log_message(LogTemplates.ring.ring_declined)
 		_pending_ring_earn = false
 		_continue_after_ring_earn()
+
+
+func _on_ring_replace_confirmed() -> void:
+	GameState.replace_ring(_pending_ring_hand_id, _conflicting_ring_type, _pending_ring_type)
+	_pending_ring_earn = false
+	_pending_ring_hand_id = -1
+	_continue_after_ring_earn()
+
+
+func _on_ring_keep_confirmed() -> void:
+	_on_log_message(LogTemplates.ring.ring_declined)
+	_pending_ring_earn = false
+	_pending_ring_hand_id = -1
+	_continue_after_ring_earn()
 
 # === TURN FLOW ===
 

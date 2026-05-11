@@ -2,6 +2,8 @@ extends Control
 
 signal ring_selected(ring_type: Enums.RingType)
 signal selection_skipped()
+signal replace_confirmed
+signal keep_confirmed
 
 # Fixed panel dimensions
 const PANEL_SIZE := Vector2(560, 420)
@@ -21,6 +23,12 @@ var _card_rects: Array[Rect2] = []
 var _skip_rect := Rect2()
 var _panel_rect := Rect2()
 
+var _conflict_mode := false
+var _hovered_keep := false
+var _hovered_replace := false
+var _keep_rect := Rect2()
+var _replace_rect := Rect2()
+
 func _ready() -> void:
 	visible = false
 	mouse_filter = Control.MOUSE_FILTER_STOP
@@ -39,9 +47,35 @@ func open(offered: Array) -> void:
 
 
 func close() -> void:
+	_conflict_mode = false
 	var tw := create_tween()
 	tw.tween_property(self, "_fade_alpha", 0.0, 0.2)
 	tw.tween_callback(_on_fade_done)
+
+
+func open_replace_prompt(existing: Enums.RingType, new_ring: Enums.RingType) -> void:
+	_conflict_mode = true
+	_offered_rings = [existing, new_ring]
+	_hovered_card = -1
+	_hovered_keep = false
+	_hovered_replace = false
+	_build_layout()
+	_build_conflict_buttons()
+	visible = true
+	_fade_alpha = 0.0
+	var tw := create_tween()
+	tw.tween_property(self, "_fade_alpha", 1.0, 0.25)
+	queue_redraw()
+
+
+func _build_conflict_buttons() -> void:
+	const BTN_W := 150.0
+	const BTN_H := 34.0
+	const GAP := 16.0
+	var cx := _panel_rect.position.x + PANEL_SIZE.x * 0.5
+	var btn_y := _panel_rect.position.y + PANEL_SIZE.y - 52.0
+	_keep_rect = Rect2(Vector2(cx - BTN_W - GAP * 0.5, btn_y), Vector2(BTN_W, BTN_H))
+	_replace_rect = Rect2(Vector2(cx + GAP * 0.5, btn_y), Vector2(BTN_W, BTN_H))
 
 
 func _on_fade_done() -> void:
@@ -84,33 +118,59 @@ func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		var mb := event as InputEventMouseButton
 		if mb.button_index == MOUSE_BUTTON_LEFT and mb.pressed:
-			for i in _card_rects.size():
-				if _card_rects[i].has_point(mb.position):
-					var ring_type: Enums.RingType = _offered_rings[i] as Enums.RingType
+			if _conflict_mode:
+				if _keep_rect.has_point(mb.position):
 					close()
-					ring_selected.emit(ring_type)
+					keep_confirmed.emit()
 					accept_event()
 					return
-			if _skip_rect.has_point(mb.position):
-				close()
-				selection_skipped.emit()
-				accept_event()
-				return
+				if _replace_rect.has_point(mb.position):
+					close()
+					replace_confirmed.emit()
+					accept_event()
+					return
+			else:
+				for i in _card_rects.size():
+					if _card_rects[i].has_point(mb.position):
+						var ring_type: Enums.RingType = _offered_rings[i] as Enums.RingType
+						close()
+						ring_selected.emit(ring_type)
+						accept_event()
+						return
+				if _skip_rect.has_point(mb.position):
+					close()
+					selection_skipped.emit()
+					accept_event()
+					return
 		accept_event()
 
 	elif event is InputEventMouseMotion:
 		var mm := event as InputEventMouseMotion
-		var old_card := _hovered_card
-		var old_skip := _hovered_skip
-		_hovered_card = -1
-		_hovered_skip = false
-		for i in _card_rects.size():
-			if _card_rects[i].has_point(mm.position):
-				_hovered_card = i
-				break
-		_hovered_skip = _skip_rect.has_point(mm.position)
-		if old_card != _hovered_card or old_skip != _hovered_skip:
-			queue_redraw()
+		if _conflict_mode:
+			var old_keep := _hovered_keep
+			var old_replace := _hovered_replace
+			var old_card := _hovered_card
+			_hovered_keep = _keep_rect.has_point(mm.position)
+			_hovered_replace = _replace_rect.has_point(mm.position)
+			_hovered_card = -1
+			for i in _card_rects.size():
+				if _card_rects[i].has_point(mm.position):
+					_hovered_card = i
+					break
+			if old_keep != _hovered_keep or old_replace != _hovered_replace or old_card != _hovered_card:
+				queue_redraw()
+		else:
+			var old_card := _hovered_card
+			var old_skip := _hovered_skip
+			_hovered_card = -1
+			_hovered_skip = false
+			for i in _card_rects.size():
+				if _card_rects[i].has_point(mm.position):
+					_hovered_card = i
+					break
+			_hovered_skip = _skip_rect.has_point(mm.position)
+			if old_card != _hovered_card or old_skip != _hovered_skip:
+				queue_redraw()
 		accept_event()
 
 
@@ -139,7 +199,7 @@ func _draw() -> void:
 	_draw_rounded_rect_outline(inner, Color(0.2, 0.2, 0.28, 0.15 * _fade_alpha), CORNER_RADIUS - 1, 1.0)
 
 	# Title
-	var title := "CHOOSE A RING"
+	var title := "RING CONFLICT" if _conflict_mode else "CHOOSE A RING"
 	var title_size := 26
 	var title_w := UIConstants.FONT_TITLE.get_string_size(title, HORIZONTAL_ALIGNMENT_LEFT, -1, title_size).x
 	var title_color := Color(0.88, 0.9, 0.96, _fade_alpha)
@@ -169,7 +229,12 @@ func _draw() -> void:
 	)
 
 	# Subtitle
-	var subtitle := "You destroyed one of Charon's hands!"
+	var subtitle: String
+	if _conflict_mode:
+		var existing_res = Enums.RING_RESOURCES[_offered_rings[0] as Enums.RingType]
+		subtitle = existing_res.finger_group + " finger already has a ring — keep it or replace?"
+	else:
+		subtitle = "You destroyed one of Charon's hands!"
 	var sub_size := 13
 	var sub_w := font.get_string_size(subtitle, HORIZONTAL_ALIGNMENT_LEFT, -1, sub_size).x
 	draw_string(font, Vector2(_panel_rect.position.x + (_panel_rect.size.x - sub_w) * 0.5, _panel_rect.position.y + 70), subtitle, HORIZONTAL_ALIGNMENT_LEFT, -1, sub_size, Color(0.58, 0.6, 0.66, _fade_alpha))
@@ -178,8 +243,23 @@ func _draw() -> void:
 	for i in _offered_rings.size():
 		_draw_ring_card(i)
 
-	# Skip button
-	_draw_skip_button()
+	if _conflict_mode:
+		# "CURRENT" / "NEW" labels overlaid on each card
+		var label_size := 9
+		var labels := ["CURRENT", "NEW"]
+		var label_colors := [Color(0.55, 0.55, 0.65, _fade_alpha), Color(0.45, 0.85, 0.5, _fade_alpha)]
+		for i in 2:
+			var lw := font.get_string_size(labels[i], HORIZONTAL_ALIGNMENT_LEFT, -1, label_size).x
+			var cx := _card_rects[i].position.x + _card_rects[i].size.x * 0.5
+			draw_string(font, Vector2(cx - lw * 0.5, _card_rects[i].position.y + 20), labels[i], HORIZONTAL_ALIGNMENT_LEFT, -1, label_size, label_colors[i])
+		# Note about cooldown transfer
+		var note := "Replacing carries over any remaining cooldown."
+		var note_size := 9
+		var nw := font.get_string_size(note, HORIZONTAL_ALIGNMENT_LEFT, -1, note_size).x
+		draw_string(font, Vector2(_panel_rect.position.x + (_panel_rect.size.x - nw) * 0.5, _panel_rect.position.y + PANEL_SIZE.y - 62), note, HORIZONTAL_ALIGNMENT_LEFT, -1, note_size, Color(1.0, 0.8, 0.35, 0.65 * _fade_alpha))
+		_draw_conflict_buttons()
+	else:
+		_draw_skip_button()
 
 
 func _draw_ring_card(index: int) -> void:
@@ -288,10 +368,10 @@ func _draw_ring_card(index: int) -> void:
 	var capw := font.get_string_size(cap_text, HORIZONTAL_ALIGNMENT_LEFT, -1, cap_size).x
 	draw_string(font, Vector2(cx - capw * 0.5, rect.end.y - 16), cap_text, HORIZONTAL_ALIGNMENT_LEFT, -1, cap_size, Color(0.45, 0.47, 0.52, _fade_alpha * 0.7))
 
-	# Hover cursor hint
-	if is_hovered:
+	# Hover cursor hint — cards aren't clickable in conflict mode
+	if is_hovered and not _conflict_mode:
 		mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-	elif not _hovered_skip:
+	elif not _hovered_skip and not _hovered_keep and not _hovered_replace:
 		mouse_default_cursor_shape = Control.CURSOR_ARROW
 
 
@@ -318,6 +398,38 @@ func _draw_skip_button() -> void:
 		_skip_rect.position.x + (_skip_rect.size.x - text_w) * 0.5,
 		_skip_rect.position.y + _skip_rect.size.y * 0.5 + 5
 	), text, HORIZONTAL_ALIGNMENT_LEFT, -1, text_size, text_color)
+
+
+func _draw_conflict_buttons() -> void:
+	var font := UIConstants.FONT_BODY_BOLD
+
+	# Keep button (green tint)
+	var keep_bg := Color(0.1, 0.14, 0.1, _fade_alpha)
+	if _hovered_keep:
+		keep_bg = Color(0.13, 0.20, 0.13, _fade_alpha)
+		mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	_draw_rounded_rect(_keep_rect, keep_bg, 6.0)
+	var keep_border_col := Color(0.35, 0.55, 0.35, (0.65 if _hovered_keep else 0.4) * _fade_alpha)
+	_draw_rounded_rect_outline(_keep_rect, keep_border_col, 6.0, 1.5)
+	var keep_text := "Keep Existing"
+	var keep_text_size := 12
+	var ktw := font.get_string_size(keep_text, HORIZONTAL_ALIGNMENT_LEFT, -1, keep_text_size).x
+	var keep_color := Color(0.5, 0.82, 0.5, _fade_alpha) if _hovered_keep else Color(0.4, 0.65, 0.4, _fade_alpha)
+	draw_string(font, Vector2(_keep_rect.position.x + (_keep_rect.size.x - ktw) * 0.5, _keep_rect.position.y + _keep_rect.size.y * 0.5 + 5), keep_text, HORIZONTAL_ALIGNMENT_LEFT, -1, keep_text_size, keep_color)
+
+	# Replace button (red tint)
+	var rep_bg := Color(0.13, 0.1, 0.1, _fade_alpha)
+	if _hovered_replace:
+		rep_bg = Color(0.20, 0.12, 0.12, _fade_alpha)
+		mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	_draw_rounded_rect(_replace_rect, rep_bg, 6.0)
+	var rep_border_col := Color(0.55, 0.3, 0.3, (0.65 if _hovered_replace else 0.4) * _fade_alpha)
+	_draw_rounded_rect_outline(_replace_rect, rep_border_col, 6.0, 1.5)
+	var rep_text := "Replace It"
+	var rep_text_size := 12
+	var rtw := font.get_string_size(rep_text, HORIZONTAL_ALIGNMENT_LEFT, -1, rep_text_size).x
+	var rep_color := Color(0.85, 0.45, 0.45, _fade_alpha) if _hovered_replace else Color(0.65, 0.35, 0.35, _fade_alpha)
+	draw_string(font, Vector2(_replace_rect.position.x + (_replace_rect.size.x - rtw) * 0.5, _replace_rect.position.y + _replace_rect.size.y * 0.5 + 5), rep_text, HORIZONTAL_ALIGNMENT_LEFT, -1, rep_text_size, rep_color)
 
 
 # === TEXT WRAPPING ===
