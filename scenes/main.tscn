@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/top_bar.tscn" id="5_topbar"]
 [ext_resource type="PackedScene" path="res://scenes/ui/action_bar.tscn" id="6_actionbar"]
 [ext_resource type="PackedScene" path="res://scenes/ui/action_log.tscn" id="7_actionlog"]
-[ext_resource type="PackedScene" path="res://scenes/ui/game_over_dialog.tscn" id="8_gameover"]
+[ext_resource type="PackedScene" uid="uid://kfayfyx3sop4" path="res://scenes/ui/game_over_dialog.tscn" id="8_gameover"]
 [ext_resource type="PackedScene" path="res://scenes/ui/audio_manager.tscn" id="9_audio"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bg"]
@@ -150,8 +150,6 @@ layout_mode = 1
 [node name="GameOverDialog" parent="." unique_id=924001872 instance=ExtResource("8_gameover")]
 unique_name_in_owner = true
 layout_mode = 1
-grow_horizontal = 2
-grow_vertical = 2
 
 [node name="AITimer" type="Timer" parent="." unique_id=1731756889]
 unique_name_in_owner = true

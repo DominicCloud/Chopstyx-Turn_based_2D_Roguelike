@@ -317,8 +317,8 @@ func _draw() -> void:
 				_draw_circle_outline(ring_pos, UIConstants.RING_INDICATOR_RADIUS, ring_color, 2.0)
 
 				var letter: String = ring_res.ring_letter
-				var lw := ThemeDB.fallback_font.get_string_size(letter, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x
-				draw_string(ThemeDB.fallback_font, Vector2(ring_pos.x - lw * 0.5, ring_pos.y + 5), letter, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, ring_color.lightened(0.3))
+				var lw := UIConstants.FONT_BODY_BOLD.get_string_size(letter, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x
+				draw_string(UIConstants.FONT_BODY_BOLD, Vector2(ring_pos.x - lw * 0.5, ring_pos.y + 5), letter, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, ring_color.lightened(0.3))
 
 
 func _draw_finger_dots(center: Vector2, count: int, owner_color: Color) -> void:

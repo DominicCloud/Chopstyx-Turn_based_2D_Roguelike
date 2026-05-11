@@ -24,7 +24,7 @@ func perform_effect(context: Dictionary) -> bool:
 
 	# Edge case: If total is 0, can't redistribute
 	if total_combined == 0:
-		gs.log_message.emit("[color=#FFAA00]⚠ No fingers to redistribute![/color]")
+		gs.log_message.emit(LogTemplates.ring.pandora_no_fingers)
 		return false
 
 	# Validate distribution
@@ -64,7 +64,7 @@ func perform_effect(context: Dictionary) -> bool:
 		all_hands[i]["alive"] = new_val > 0
 		parts.append(str(new_val))
 
-	gs.log_message.emit("[color=#FF4DCC]📦 Pandora's chaos redistributes ALL fingers → [%s][/color]" % ", ".join(parts))
+	gs.log_message.emit(LogTemplates.ring.pandora_chaos.format({"fingers": ", ".join(parts)}))
 
 	# IMPORTANT: Emit hands_changed before checking deaths
 	gs.hands_changed.emit()

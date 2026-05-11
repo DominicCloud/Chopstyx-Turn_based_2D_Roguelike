@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://daudio_manager_scene"]
+[gd_scene load_steps=8 format=3 uid="uid://daudio_manager_scene"]
 
 [ext_resource type="Script" path="res://scripts/ui/audio_manager.gd" id="1_script"]
 [ext_resource type="AudioStream" uid="uid://crkdoff6aswib" path="res://assets/audio/bg_music.mp3" id="2_bgm"]
 [ext_resource type="AudioStream" uid="uid://dj6p4e7qk5eoj" path="res://assets/audio/click_sfx.mp3" id="3_click"]
 [ext_resource type="AudioStream" uid="uid://d2p0d5tgpdni1" path="res://assets/audio/hit_sfx.mp3" id="4_hit"]
 [ext_resource type="AudioStream" uid="uid://dnm3dd1pgjqfn" path="res://assets/audio/charon_death_sfx.mp3" id="5_death"]
+[ext_resource type="AudioStream" path="res://assets/audio/split_sfx.mp3" id="6_split"]
+[ext_resource type="AudioStream" path="res://assets/audio/charon_groan.mp3" id="7_groan"]
 
 [node name="AudioManager" type="Node"]
 script = ExtResource("1_script")
@@ -22,3 +24,9 @@ stream = ExtResource("4_hit")
 
 [node name="charon_death_sfx" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_death")
+
+[node name="split_sfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_split")
+
+[node name="charon_groan_sfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_groan")

@@ -14,9 +14,9 @@ func perform_effect(context: Dictionary) -> bool:
 	var target_label: String = gs._hand_label(target)
 
 	if already_stunned:
-		gs.log_message.emit("[color=#3366FF]🐍 Medusa reinforces the petrification on %s![/color]" % target_label)
+		gs.log_message.emit(LogTemplates.ring.medusa_reinforce.format({"target": target_label}))
 	else:
-		gs.log_message.emit("[color=#3366FF]🐍 Medusa's gaze petrifies %s![/color]" % target_label)
+		gs.log_message.emit(LogTemplates.ring.medusa_petrify.format({"target": target_label}))
 
 	gs.hands_changed.emit()
 	return true

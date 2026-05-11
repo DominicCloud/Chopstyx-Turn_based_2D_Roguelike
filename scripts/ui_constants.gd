@@ -1,5 +1,10 @@
 class_name UIConstants
 
+# === FONTS ===
+const FONT_TITLE := preload("res://assets/fonts/title_norse/Norsebold.otf")
+const FONT_BODY := preload("res://assets/fonts/text_bric_gotesque/static/BricolageGrotesque_24pt-Regular.ttf")
+const FONT_BODY_BOLD := preload("res://assets/fonts/text_bric_gotesque/static/BricolageGrotesque-SemiBold.ttf")
+
 # === OWNER COLORS ===
 const COLOR_PLAYER := Color(0.0, 0.9, 1.0)       # Cyan
 const COLOR_OPPONENT := Color(1.0, 0.2, 0.6)      # Magenta

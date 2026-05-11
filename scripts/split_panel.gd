@@ -245,8 +245,8 @@ func _draw() -> void:
 
 	# Title
 	var title := "SPLIT FINGERS"
-	var title_w := ThemeDB.fallback_font.get_string_size(title, HORIZONTAL_ALIGNMENT_LEFT, -1, 22).x
-	draw_string(ThemeDB.fallback_font, Vector2((size.x - title_w) * 0.5, _boxes[0].position.y - 30 if _boxes.size() > 0 else 100), title, HORIZONTAL_ALIGNMENT_LEFT, -1, 22, Color(0.8, 0.85, 0.9, _fade_alpha))
+	var title_w := UIConstants.FONT_TITLE.get_string_size(title, HORIZONTAL_ALIGNMENT_LEFT, -1, 26).x
+	draw_string(UIConstants.FONT_TITLE, Vector2((size.x - title_w) * 0.5, _boxes[0].position.y - 28 if _boxes.size() > 0 else 100), title, HORIZONTAL_ALIGNMENT_LEFT, -1, 26, Color(0.8, 0.85, 0.9, _fade_alpha))
 
 	# Hand boxes
 	for i in _boxes.size():
@@ -265,8 +265,8 @@ func _draw() -> void:
 
 	# Instructions
 	var instr := "Drag dots between boxes to redistribute"
-	var instr_w := ThemeDB.fallback_font.get_string_size(instr, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x
-	draw_string(ThemeDB.fallback_font, Vector2((size.x - instr_w) * 0.5, _cancel_rect.end.y + 30), instr, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.5, 0.5, 0.6, _fade_alpha))
+	var instr_w := UIConstants.FONT_BODY.get_string_size(instr, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
+	draw_string(UIConstants.FONT_BODY, Vector2((size.x - instr_w) * 0.5, _cancel_rect.end.y + 30), instr, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.5, 0.5, 0.6, _fade_alpha))
 
 
 func _draw_hand_box(index: int) -> void:
@@ -285,10 +285,10 @@ func _draw_hand_box(index: int) -> void:
 	var label := "Hand %d" % (index + 1)
 	if not alive:
 		label += " (dead)"
-	var lw := ThemeDB.fallback_font.get_string_size(label, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
+	var lw := UIConstants.FONT_BODY_BOLD.get_string_size(label, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
 	var label_color := UIConstants.COLOR_PLAYER if alive else UIConstants.COLOR_DOT_DEAD
 	label_color.a = _fade_alpha
-	draw_string(ThemeDB.fallback_font, Vector2(box.position.x + (box.size.x - lw) * 0.5, box.position.y + 20), label, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, label_color)
+	draw_string(UIConstants.FONT_BODY_BOLD, Vector2(box.position.x + (box.size.x - lw) * 0.5, box.position.y + 20), label, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, label_color)
 
 	# Dot count
 	var dot_count := 0
@@ -296,9 +296,9 @@ func _draw_hand_box(index: int) -> void:
 		if d["box_index"] == index:
 			dot_count += 1
 	var count_str := str(dot_count)
-	var cw := ThemeDB.fallback_font.get_string_size(count_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
+	var cw := UIConstants.FONT_BODY.get_string_size(count_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x
 	var count_col := Color(0.5, 0.5, 0.6, _fade_alpha)
-	draw_string(ThemeDB.fallback_font, Vector2(box.position.x + (box.size.x - cw) * 0.5, box.end.y - 8), count_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, count_col)
+	draw_string(UIConstants.FONT_BODY, Vector2(box.position.x + (box.size.x - cw) * 0.5, box.end.y - 8), count_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, count_col)
 
 
 func _draw_dot(index: int) -> void:
@@ -332,11 +332,11 @@ func _draw_button(rect: Rect2, text: String, color: Color, hovered: bool) -> voi
 	border.a = _fade_alpha
 	_draw_rect_outline(rect, border, 2.0)
 
-	var tw := ThemeDB.fallback_font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 15).x
+	var tw := UIConstants.FONT_BODY_BOLD.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 15).x
 	var text_col := color.lightened(0.3)
 	text_col.a = _fade_alpha
 	var text_pos := Vector2(rect.position.x + (rect.size.x - tw) * 0.5, rect.position.y + rect.size.y * 0.5 + 5)
-	draw_string(ThemeDB.fallback_font, text_pos, text, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, text_col)
+	draw_string(UIConstants.FONT_BODY_BOLD, text_pos, text, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, text_col)
 
 
 func _draw_rect_outline(rect: Rect2, color: Color, width: float) -> void:

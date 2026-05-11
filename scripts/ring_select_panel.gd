@@ -126,7 +126,7 @@ func _draw() -> void:
 	if _fade_alpha < 0.01:
 		return
 
-	var font := ThemeDB.fallback_font
+	var font := UIConstants.FONT_BODY
 
 	# Panel background
 	_draw_rounded_rect(_panel_rect, Color(0.07, 0.07, 0.11, 0.97 * _fade_alpha), CORNER_RADIUS)
@@ -140,10 +140,10 @@ func _draw() -> void:
 
 	# Title
 	var title := "CHOOSE A RING"
-	var title_size := 22
-	var title_w := font.get_string_size(title, HORIZONTAL_ALIGNMENT_LEFT, -1, title_size).x
+	var title_size := 26
+	var title_w := UIConstants.FONT_TITLE.get_string_size(title, HORIZONTAL_ALIGNMENT_LEFT, -1, title_size).x
 	var title_color := Color(0.88, 0.9, 0.96, _fade_alpha)
-	draw_string(font, Vector2(_panel_rect.position.x + (_panel_rect.size.x - title_w) * 0.5, _panel_rect.position.y + 35), title, HORIZONTAL_ALIGNMENT_LEFT, -1, title_size, title_color)
+	draw_string(UIConstants.FONT_TITLE, Vector2(_panel_rect.position.x + (_panel_rect.size.x - title_w) * 0.5, _panel_rect.position.y + 35), title, HORIZONTAL_ALIGNMENT_LEFT, -1, title_size, title_color)
 
 	# Decorative divider under title
 	var div_y := _panel_rect.position.y + 47
@@ -188,7 +188,7 @@ func _draw_ring_card(index: int) -> void:
 	var ring = Enums.RING_RESOURCES[ring_type]
 	var ring_color: Color = ring.ring_color
 	var is_hovered := (index == _hovered_card)
-	var font := ThemeDB.fallback_font
+	var font := UIConstants.FONT_BODY
 
 	# Card background
 	var bg := Color(0.1, 0.1, 0.15, _fade_alpha)
@@ -245,10 +245,10 @@ func _draw_ring_card(index: int) -> void:
 	# Ring name
 	var name_text: String = ring.short_name
 	var name_size := 16
-	var nw := font.get_string_size(name_text, HORIZONTAL_ALIGNMENT_LEFT, -1, name_size).x
+	var nw := UIConstants.FONT_BODY_BOLD.get_string_size(name_text, HORIZONTAL_ALIGNMENT_LEFT, -1, name_size).x
 	var name_color := ring_color.lightened(0.15)
 	name_color.a = _fade_alpha
-	draw_string(font, Vector2(cx - nw * 0.5, top + 82), name_text, HORIZONTAL_ALIGNMENT_LEFT, -1, name_size, name_color)
+	draw_string(UIConstants.FONT_BODY_BOLD, Vector2(cx - nw * 0.5, top + 82), name_text, HORIZONTAL_ALIGNMENT_LEFT, -1, name_size, name_color)
 
 	# Finger group tag
 	var group_text: String = ring.finger_group
@@ -296,7 +296,7 @@ func _draw_ring_card(index: int) -> void:
 
 
 func _draw_skip_button() -> void:
-	var font := ThemeDB.fallback_font
+	var font := UIConstants.FONT_BODY_BOLD
 	var bg := Color(0.1, 0.1, 0.13, _fade_alpha)
 	if _hovered_skip:
 		bg = Color(0.16, 0.13, 0.14, _fade_alpha)
@@ -323,7 +323,7 @@ func _draw_skip_button() -> void:
 # === TEXT WRAPPING ===
 
 func _word_wrap(text: String, max_width: float, font_size: int) -> PackedStringArray:
-	var font := ThemeDB.fallback_font
+	var font := UIConstants.FONT_BODY
 	var lines: PackedStringArray = []
 	var words := text.split(" ")
 	var current_line := ""

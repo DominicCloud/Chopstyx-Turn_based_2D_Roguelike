@@ -14,11 +14,16 @@ const RingEffectClass := preload("res://scripts/rings/ring_effect.gd")
 # === NODE REFS (still in main.tscn) ===
 
 @onready var status_label: Label = %StatusLabel
+@onready var opponent_label: Label = $OpponentSection/OpponentLabel
+@onready var player_label: Label = $PlayerSection/PlayerLabel
 @onready var opponent_hands_container: HBoxContainer = %OpponentHands
 @onready var player_hands_container: HBoxContainer = %PlayerHands
 @onready var flash_overlay: ColorRect = %FlashOverlay
 @onready var split_panel: Control = %SplitPanel
 @onready var ai_timer: Timer = %AITimer
+
+const WinDialogScene := "res://scenes/ui/win_dialog.tscn"
+const LoseDialogScene := "res://scenes/ui/lose_dialog.tscn"
 
 var ring_select_panel: Control
 
@@ -38,6 +43,14 @@ var _hit_animating := false
 # === INITIALIZATION ===
 
 func _ready() -> void:
+	
+	await Fade.fade_in(.2).finished
+	GameState.reset_game()
+
+	status_label.add_theme_font_override("font", UIConstants.FONT_BODY)
+	opponent_label.add_theme_font_override("font", UIConstants.FONT_TITLE)
+	player_label.add_theme_font_override("font", UIConstants.FONT_TITLE)
+
 	ai = preload("res://scripts/ai_opponent.gd").new()
 	ai.optimal_chance = GameState.DIFFICULTY_OPTIMAL[GameState.ai_difficulty]
 	add_child(ai)
@@ -65,7 +78,6 @@ func _ready() -> void:
 	# Connect dialogs
 	ring_select_panel.ring_selected.connect(_on_ring_selected)
 	ring_select_panel.selection_skipped.connect(_on_ring_select_closed)
-	game_over_dialog.restart_requested.connect(_on_restart)
 
 	# AI timer
 	ai_timer.timeout.connect(_on_ai_timer_timeout)
@@ -189,20 +201,20 @@ func _on_split_pressed() -> void:
 		return
 	var all_hands := GameState.get_hands_for_owner(Enums.Owner.PLAYER)
 	if all_hands.size() < 2:
-		_on_log_message("[color=#FFAA00]⚠ You need at least 2 hands to redistribute fingers.[/color]")
+		_on_log_message(LogTemplates.split.player_no_hands)
 		return
 	var total := 0
 	for hand in all_hands:
 		total += hand["fingers"]
 	if total < 1:
-		_on_log_message("[color=#FFAA00]⚠ No fingers available to redistribute.[/color]")
+		_on_log_message(LogTemplates.split.player_no_fingers)
 		return
 	_set_state(Enums.ActionState.SPLIT_DIALOG)
 
 
 func _on_cancel_pressed() -> void:
 	if current_state == Enums.ActionState.RING_PLACE:
-		_on_log_message("[color=#888888]You declined the divine gift.[/color]")
+		_on_log_message(LogTemplates.ring.ring_declined)
 		_pending_ring_earn = false
 		_continue_after_ring_earn()
 		return
@@ -266,16 +278,18 @@ func _on_split_confirmed(distribution: Array[int]) -> void:
 	if _pandora_mode:
 		if GameState.use_ring(Enums.RingType.PANDORA, {"distribution": distribution}):
 			_pandora_mode = false
+			audio_manager.play_split()
 			_after_player_action()
 		else:
-			_on_log_message("[color=#FFAA00]⚠ Invalid! Pandora requires the total to match all combined fingers.[/color]")
+			_on_log_message(LogTemplates.split.pandora_invalid)
 			_set_state(Enums.ActionState.CHOOSE_ACTION)
 			_pandora_mode = false
 	else:
 		if GameState.perform_split(Enums.Owner.PLAYER, distribution):
+			audio_manager.play_split()
 			_after_player_action()
 		else:
-			_on_log_message("[color=#FFAA00]⚠ Invalid! Total must match current fingers and create a different arrangement.[/color]")
+			_on_log_message(LogTemplates.split.invalid_split)
 			_set_state(Enums.ActionState.CHOOSE_ACTION)
 
 # === RING USAGE ===
@@ -361,7 +375,7 @@ func _on_hand_died(hand_id: int) -> void:
 func _show_ring_select_dialog() -> void:
 	var available := GameState.get_available_ring_types()
 	if available.is_empty():
-		_on_log_message("[color=#FFAA00]⚠ Your hands are adorned with all the rings they can hold![/color]")
+		_on_log_message(LogTemplates.ring.all_rings_full)
 		_pending_ring_earn = false
 		return
 
@@ -378,7 +392,7 @@ func _on_ring_selected(ring_type: Enums.RingType) -> void:
 
 func _on_ring_select_closed() -> void:
 	if _pending_ring_earn:
-		_on_log_message("[color=#888888]You declined the divine gift.[/color]")
+		_on_log_message(LogTemplates.ring.ring_declined)
 		_pending_ring_earn = false
 		_continue_after_ring_earn()
 
@@ -451,6 +465,7 @@ func _execute_ai_move(move: Dictionary) -> void:
 		for v in move["distribution"]:
 			dist.append(int(v))
 		GameState.perform_split(Enums.Owner.OPPONENT, dist)
+		audio_manager.play_split()
 
 # === VISUAL EFFECTS ===
 
@@ -464,25 +479,23 @@ func _screen_flash() -> void:
 func _on_game_over(player_won: bool) -> void:
 	_set_state(Enums.ActionState.GAME_OVER)
 	if player_won:
-		_on_log_message("[b][color=#00E5FF]⚔ VICTORY! You have bested the Ferryman! ⚔[/color][/b]")
+		_on_log_message(LogTemplates.game.victory)
+		audio_manager.play_charon_groan()
 	else:
-		_on_log_message("[b][color=#FF3399]💀 DEFEAT! Charon claims another soul... 💀[/color][/b]")
-	game_over_dialog.show_result(player_won)
+		_on_log_message(LogTemplates.game.defeat)
+	audio_manager.fade_out_music(2.2)
+	await get_tree().create_timer(1.2).timeout
+	#if player_won:
+		#audio_manager.play_charon_groan()
+	await Fade.fade_out().finished
+	if player_won:
+		get_tree().change_scene_to_file(WinDialogScene)
+	else:
+		get_tree().change_scene_to_file(LoseDialogScene)
 
 
 func _on_log_message(text: String) -> void:
 	action_log_panel.add_message(text)
-
-
-func _on_restart() -> void:
-	GameState.reset_game()
-	_build_hand_displays()
-	_pending_ring_earn = false
-	_pending_ring_type = Enums.RingType.ASCLEPIUS
-	_hit_animating = false
-	_set_state(Enums.ActionState.CHOOSE_ACTION)
-	action_log_panel.show_restart()
-	_play_entrance_animations()
 
 # === HAND DISPLAY MANAGEMENT ===
 

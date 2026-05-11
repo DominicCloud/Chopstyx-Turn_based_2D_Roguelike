@@ -6,6 +6,8 @@ extends HBoxContainer
 
 
 func _ready() -> void:
+	for label: Label in [turn_label, round_label, actions_label]:
+		label.add_theme_font_override("font", UIConstants.FONT_BODY_BOLD)
 	GameState.turn_changed.connect(_on_turn_changed)
 	GameState.round_changed.connect(_on_round_changed)
 

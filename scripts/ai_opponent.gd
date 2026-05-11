@@ -24,7 +24,7 @@ func take_turn() -> Dictionary:
 	if valid_ai_hands.is_empty():
 		for hand in ai_hands:
 			hand["stunned"] = false
-		GameState.log_message.emit("[color=#888888]🗿 Charon's hands remain petrified — turn skipped![/color]")
+		GameState.log_message.emit(LogTemplates.game.charon_stunned)
 		return {}
 
 	# Midas forced attacks override everything — Charon must hit his own marked hand

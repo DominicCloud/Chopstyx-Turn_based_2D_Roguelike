@@ -10,6 +10,9 @@ extends Control
 @onready var start_sound: AudioStreamPlayer = $on_play
 
 @onready var difficulty_row: HBoxContainer = $CenterContainer/VBoxContainer/DifficultyRow
+@onready var title_label: Label = $CenterContainer/VBoxContainer/Label
+@onready var play_button: Button = $CenterContainer/VBoxContainer/Play
+@onready var quit_button: Button = $CenterContainer/VBoxContainer/Quit
 
 var sprite_width := 0.0
 var main_game_Scene: PackedScene = preload("res://scenes/screens/main.tscn")
@@ -31,6 +34,11 @@ func _ready():
 
 	# Account for scale
 	sprite_width = bg1.texture.get_size().x * bg1.scale.x
+
+	title_label.add_theme_font_override("font", UIConstants.FONT_TITLE)
+	play_button.add_theme_font_override("font", UIConstants.FONT_BODY_BOLD)
+	quit_button.add_theme_font_override("font", UIConstants.FONT_BODY_BOLD)
+
 	menu_bg.volume_db = -80 # Start quiet
 	menu_bg.play()
 
@@ -49,6 +57,7 @@ func _build_difficulty_buttons() -> void:
 		var btn := Button.new()
 		btn.text = DIFFICULTY_NAMES[i]
 		btn.custom_minimum_size = Vector2(100, 36)
+		btn.add_theme_font_override("font", UIConstants.FONT_BODY_BOLD)
 		btn.pressed.connect(_on_difficulty_selected.bind(i))
 		difficulty_row.add_child(btn)
 		_difficulty_buttons.append(btn)

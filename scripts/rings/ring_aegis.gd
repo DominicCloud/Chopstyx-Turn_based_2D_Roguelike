@@ -14,9 +14,9 @@ func perform_effect(context: Dictionary) -> bool:
 	var target_label: String = gs._hand_label(target)
 
 	if already_protected:
-		gs.log_message.emit("[color=#FFAA00]⚠ Aegis shield already guards %s (wasted)![/color]" % target_label)
+		gs.log_message.emit(LogTemplates.ring.aegis_wasted.format({"target": target_label}))
 	else:
-		gs.log_message.emit("[color=#4D9FFF]🛡️ Aegis shield guards %s![/color]" % target_label)
+		gs.log_message.emit(LogTemplates.ring.aegis_shield.format({"target": target_label}))
 
 	gs.hands_changed.emit()
 	return true

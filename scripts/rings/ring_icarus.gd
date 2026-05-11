@@ -16,11 +16,11 @@ func perform_effect(context: Dictionary) -> bool:
 	var target_label: String = gs._hand_label(target)
 	if new_fingers == 0:
 		target["alive"] = false
-		gs.log_message.emit("[color=#00B34C]☀️ Icarus burns %s to ashes![/color]" % target_label)
+		gs.log_message.emit(LogTemplates.ring.icarus_burn.format({"target": target_label}))
 		gs.hand_died.emit(target_id)
 		gs._check_game_over()
 	else:
-		gs.log_message.emit("[color=#00B34C]☀️ Icarus scorches %s → [b]%d fingers[/b][/color]" % [target_label, new_fingers])
+		gs.log_message.emit(LogTemplates.ring.icarus_scorch.format({"target": target_label, "fingers": new_fingers}))
 
 	gs.hands_changed.emit()
 	return true

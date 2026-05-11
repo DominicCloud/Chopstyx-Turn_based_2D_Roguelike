@@ -14,9 +14,9 @@ func perform_effect(context: Dictionary) -> bool:
 	var target_label: String = gs._hand_label(target)
 
 	if already_empowered:
-		gs.log_message.emit("[color=#FFAA00]⚠ %s already has Hercules' strength (wasted)![/color]" % target_label)
+		gs.log_message.emit(LogTemplates.ring.hercules_wasted.format({"target": target_label}))
 	else:
-		gs.log_message.emit("[color=#FF6600]💪 Hercules empowers %s with legendary strength![/color]" % target_label)
+		gs.log_message.emit(LogTemplates.ring.hercules_charge.format({"target": target_label}))
 
 	gs.hands_changed.emit()
 	return true

@@ -17,11 +17,11 @@ func perform_effect(context: Dictionary) -> bool:
 	if new_fingers == 0:
 		# Critical edge case: Asclepius can accidentally kill your own hand!
 		target["alive"] = false
-		gs.log_message.emit("[color=#FF4466]💀 Asclepius overhealed %s — it burst![/color]" % target_label)
+		gs.log_message.emit(LogTemplates.ring.asclepius_burst.format({"target": target_label}))
 		gs.hand_died.emit(target_id)
 		gs._check_game_over()
 	else:
-		gs.log_message.emit("[color=#33F266]🌿 Asclepius heals %s → [b]%d fingers[/b][/color]" % [target_label, new_fingers])
+		gs.log_message.emit(LogTemplates.ring.asclepius_heal.format({"target": target_label, "fingers": new_fingers}))
 
 	gs.hands_changed.emit()
 	return true

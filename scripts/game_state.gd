@@ -139,7 +139,7 @@ func perform_hit(source_id: int, target_id: int) -> bool:
 		return false
 	# Check if target is protected (Aegis)
 	if target.get("protected", false) and target["owner"] == Enums.Owner.PLAYER:
-		log_message.emit("[color=#4D9FFF]⚔ Aegis Shield activated! %s deflects the attack![/color]" % _hand_label(target))
+		log_message.emit(LogTemplates.attack.aegis_block.format({"target": _hand_label(target)}))
 		target["protected"] = false  # Aegis shield breaks after blocking one attack
 		_consume_action()
 		hands_changed.emit()
@@ -161,17 +161,21 @@ func perform_hit(source_id: int, target_id: int) -> bool:
 
 	if new_fingers == 0:
 		target["alive"] = false
-		var kill_msg := "[color=#FF4466]💀 %s strikes %s — eliminated![/color]" % [source_label, target_label]
+		var kill_msg: String
 		if hercules_active:
-			kill_msg = "[color=#FF6600]⚡ HERCULES SMASH! %s obliterates %s![/color]" % [source_label, target_label]
+			kill_msg = LogTemplates.attack.hercules_kill.format({"source": source_label, "target": target_label})
+		else:
+			kill_msg = LogTemplates.attack.kill.format({"source": source_label, "target": target_label})
 		log_message.emit(kill_msg)
 		hand_died.emit(target_id)
 		_check_ring_earn(target)
 		_check_game_over()
 	else:
-		var hit_msg := "⚔ %s strikes %s → [b]%d fingers[/b]" % [source_label, target_label, new_fingers]
+		var hit_msg: String
 		if hercules_active:
-			hit_msg = "[color=#FF6600]⚡ %s unleashes Hercules' might on %s → [b]%d fingers[/b][/color]" % [source_label, target_label, new_fingers]
+			hit_msg = LogTemplates.attack.hercules_hit.format({"source": source_label, "target": target_label, "fingers": new_fingers})
+		else:
+			hit_msg = LogTemplates.attack.hit.format({"source": source_label, "target": target_label, "fingers": new_fingers})
 		log_message.emit(hit_msg)
 
 	_consume_action()
@@ -233,7 +237,6 @@ func perform_split(owner: Enums.Owner, new_distribution: Array[int]) -> bool:
 		return false
 
 	# Apply - update alive status based on new finger count
-	var owner_label := "You" if owner == Enums.Owner.PLAYER else "Charon"
 	var parts: PackedStringArray = []
 	for i in all_hands.size():
 		var new_val: int = new_distribution[i]
@@ -241,8 +244,11 @@ func perform_split(owner: Enums.Owner, new_distribution: Array[int]) -> bool:
 		all_hands[i]["alive"] = new_val > 0
 		parts.append(str(new_val))
 
-	var split_color := "#00E5FF" if owner == Enums.Owner.PLAYER else "#FF3399"
-	log_message.emit("[color=%s]🖐 %s redistributed fingers → [%s][/color]" % [split_color, owner_label, ", ".join(parts)])
+	var fingers_str := ", ".join(parts)
+	if owner == Enums.Owner.PLAYER:
+		log_message.emit(LogTemplates.split.player_split.format({"fingers": fingers_str}))
+	else:
+		log_message.emit(LogTemplates.split.opponent_split.format({"fingers": fingers_str}))
 	_consume_action()
 	hands_changed.emit()
 	return true
@@ -267,7 +273,7 @@ func earn_ring(ring_type: Enums.RingType, hand_id: int) -> bool:
 	if hand.is_empty() or not hand["alive"] or hand["owner"] != Enums.Owner.PLAYER:
 		return false
 	hand["rings"].append(ring_type)
-	log_message.emit("[color=#FFD700]✨ %s acquired the %s![/color]" % [_hand_label(hand), ring.ring_name])
+	log_message.emit(LogTemplates.ring.ring_earned.format({"hand": _hand_label(hand), "ring": ring.ring_name}))
 	rings_changed.emit()
 	hands_changed.emit()
 	return true

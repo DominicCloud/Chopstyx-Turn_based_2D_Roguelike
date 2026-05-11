@@ -18,9 +18,9 @@ func perform_effect(context: Dictionary) -> bool:
 	var target_label: String = gs._hand_label(target)
 
 	if already_marked:
-		gs.log_message.emit("[color=#FFAA00]⚠ %s already cursed by Midas (wasted)![/color]" % target_label)
+		gs.log_message.emit(LogTemplates.ring.midas_wasted.format({"target": target_label}))
 	else:
-		gs.log_message.emit("[color=#FFB333]👑 Midas' curse marks %s — Charon will strike it![/color]" % target_label)
+		gs.log_message.emit(LogTemplates.ring.midas_mark.format({"target": target_label}))
 
 	gs.hands_changed.emit()
 	return true
