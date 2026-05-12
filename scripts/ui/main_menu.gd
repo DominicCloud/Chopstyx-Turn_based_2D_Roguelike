@@ -49,9 +49,12 @@ func _on_play_button_pressed() -> void:
 	on_play.play()
 	await get_tree().create_timer(1.0).timeout
 	
-	get_tree().change_scene_to_file("res://scenes/screens/main.tscn")
+	var scene := ResourceLoader.load("res://scenes/screens/main.tscn", "", ResourceLoader.CACHE_MODE_REPLACE)
+	get_tree().change_scene_to_packed(scene)
 
-
+func _on_tutorial_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://scenes/ui/tutorial.tscn")
+	
 func _on_quit_button_pressed() -> void:
 	get_tree().quit()
 

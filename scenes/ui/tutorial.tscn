@@ -1,0 +1,114 @@
+[gd_scene format=3 uid="uid://c1vafljlrfmqo"]
+
+[ext_resource type="Script" uid="uid://dv0tnrhwbuq73" path="res://scripts/ui/tutorial.gd" id="0_tutorial"]
+[ext_resource type="LabelSettings" uid="uid://cq33elkgdt6b3" path="res://resources/themes/menu_label_settings.tres" id="1_4de72"]
+[ext_resource type="Texture2D" uid="uid://c8ucvmg4vyo3d" path="res://assets/tutorial_pages/kill.png" id="2_gcvyo"]
+[ext_resource type="Texture2D" uid="uid://cu41hjlrr4b7w" path="res://assets/tutorial_pages/split.png" id="3_nrihu"]
+[ext_resource type="Texture2D" uid="uid://bwlaqjl5v7pi5" path="res://assets/tutorial_pages/victory.png" id="4_egd42"]
+[ext_resource type="Texture2D" uid="uid://dxcdxel6g0tpg" path="res://assets/bg_art/menu_art.png" id="6_nrihu"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ysljr"]
+load_path = "res://.godot/imported/attack.png-5e48a3d680e9ea8e2d3cfc2d3a0d7216.ctex"
+
+[node name="tutorial" type="Control" unique_id=286518151]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("0_tutorial")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1964351284]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1280.0
+offset_bottom = 712.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_nrihu")
+expand_mode = 1
+
+[node name="attack" type="TextureRect" parent="." unique_id=1986439038]
+visible = false
+layout_mode = 0
+offset_left = 1144.0
+offset_top = -128.0
+offset_right = 1985.7789
+offset_bottom = 884.4269
+rotation = 1.5707964
+texture = SubResource("CompressedTexture2D_ysljr")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="attack" unique_id=593955788]
+layout_mode = 0
+offset_left = 720.00006
+offset_top = 791.99994
+offset_right = 1271.0
+offset_bottom = 860.0
+rotation = -1.5707964
+text = "Attacking a hand adds to its total"
+label_settings = ExtResource("1_4de72")
+
+[node name="defeat" type="TextureRect" parent="." unique_id=983143867]
+visible = false
+layout_mode = 0
+offset_left = 864.0
+offset_top = 16.0
+offset_right = 1412.7064
+offset_bottom = 564.70654
+rotation = 1.5707964
+texture = ExtResource("2_gcvyo")
+expand_mode = 1
+
+[node name="Label2" type="Label" parent="defeat" unique_id=1207769351]
+layout_mode = 0
+offset_left = 576.0
+offset_top = 568.0
+offset_right = 1194.0
+offset_bottom = 622.0
+rotation = -1.5707964
+text = "When a hand reaches 5 fingers, it dies"
+label_settings = ExtResource("1_4de72")
+
+[node name="split" type="TextureRect" parent="." unique_id=285380022]
+visible = false
+layout_mode = 0
+offset_left = 1056.0
+offset_top = -112.0
+offset_right = 1816.7736
+offset_bottom = 765.26404
+rotation = 1.5707964
+texture = ExtResource("3_nrihu")
+expand_mode = 1
+
+[node name="Label3" type="Label" parent="split" unique_id=1543493339]
+layout_mode = 0
+offset_left = 672.0
+offset_top = 688.0
+offset_right = 1167.0
+offset_bottom = 742.0
+rotation = -1.5707964
+text = "Redistribute hands
+(Mirror Images not allowed)"
+label_settings = ExtResource("1_4de72")
+horizontal_alignment = 1
+
+[node name="victory" type="TextureRect" parent="." unique_id=460420642]
+visible = false
+layout_mode = 0
+offset_left = 1016.0
+offset_top = -64.0
+offset_right = 1711.8341
+offset_bottom = 772.8959
+rotation = 1.5707964
+texture = ExtResource("4_egd42")
+expand_mode = 1
+
+[node name="Label4" type="Label" parent="victory" unique_id=1608434351]
+layout_mode = 0
+offset_left = 608.0
+offset_top = 672.0
+offset_right = 1149.0
+offset_bottom = 726.0
+rotation = -1.5707964
+text = "Kill all of Charon's hands to win"
+label_settings = ExtResource("1_4de72")

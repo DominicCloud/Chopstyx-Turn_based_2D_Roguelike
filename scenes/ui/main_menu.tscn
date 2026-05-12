@@ -5,8 +5,8 @@
 [ext_resource type="FontFile" uid="uid://df8usrbon6ji0" path="res://assets/fonts/title_norse/Norsebold.otf" id="2_uhagc"]
 [ext_resource type="Texture2D" uid="uid://gj6gnxdb7ujq" path="res://assets/menu_page_ai.png" id="2_wb0q5"]
 [ext_resource type="Texture2D" uid="uid://cmjdrppjrku0" path="res://assets/UI/buttons/main_btn_body.png" id="3_btxxm"]
+[ext_resource type="Texture2D" uid="uid://dxcdxel6g0tpg" path="res://assets/bg_art/menu_art.png" id="3_otr3d"]
 [ext_resource type="Texture2D" uid="uid://cxidio08xu7bt" path="res://assets/UI/buttons/main_btn_full.png" id="4_wb0q5"]
-[ext_resource type="LabelSettings" uid="uid://cq33elkgdt6b3" path="res://resources/themes/menu_label_settings.tres" id="5_q85j6"]
 [ext_resource type="Texture2D" uid="uid://ccqaqpkfutjej" path="res://assets/UI/buttons/scnd_btn_body.png" id="6_8g5eo"]
 [ext_resource type="Texture2D" uid="uid://bcory1sahvouh" path="res://assets/UI/buttons/scnd_btn_full.png" id="7_btxxm"]
 [ext_resource type="AudioStream" uid="uid://dy336lsmhin6y" path="res://assets/audio/game_start.mp3" id="10_8g5eo"]
@@ -14,7 +14,31 @@
 
 [sub_resource type="LabelSettings" id="LabelSettings_7suek"]
 font = ExtResource("2_uhagc")
-font_size = 160
+font_size = 175
+outline_color = Color(0.101960786, 0.10980392, 0.10980392, 1)
+shadow_size = 14
+shadow_color = Color(0.11764706, 0.1254902, 0.1254902, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_n4uci"]
+font = ExtResource("2_uhagc")
+font_size = 42
+shadow_size = 4
+shadow_color = Color(0, 0, 0, 0.76862746)
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="LabelSettings" id="LabelSettings_otr3d"]
+font = ExtResource("2_uhagc")
+font_size = 38
+shadow_size = 4
+shadow_color = Color(0, 0, 0, 0.76862746)
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="LabelSettings" id="LabelSettings_8ekit"]
+font = ExtResource("2_uhagc")
+font_size = 38
+shadow_size = 4
+shadow_color = Color(0, 0, 0, 0.76862746)
+shadow_offset = Vector2(2, 2)
 
 [sub_resource type="LabelSettings" id="LabelSettings_1g8jr"]
 font = ExtResource("1_sl1te")
@@ -49,6 +73,7 @@ grow_vertical = 2
 script = ExtResource("1_q85j6")
 
 [node name="bg_AI" type="TextureRect" parent="." unique_id=1196752149]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -61,21 +86,34 @@ scale = Vector2(0.75, 0.75)
 texture = ExtResource("2_wb0q5")
 expand_mode = 1
 
+[node name="bg_art" type="TextureRect" parent="." unique_id=408925764]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 437.33337
+offset_bottom = 250.66669
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_otr3d")
+expand_mode = 1
+
 [node name="Chopstyx" type="Label" parent="." unique_id=546443121]
 layout_mode = 0
-offset_left = 672.0
+offset_left = 56.0
 offset_top = 72.0
-offset_right = 1160.0
-offset_bottom = 249.0
+offset_right = 757.0
+offset_bottom = 326.0
 text = "Chopstyx"
 label_settings = SubResource("LabelSettings_7suek")
 
 [node name="PlayButton" type="TextureButton" parent="." unique_id=662771724]
 layout_mode = 0
-offset_left = 832.0
-offset_top = 288.0
-offset_right = 1144.0
-offset_bottom = 456.0
+offset_left = 168.0
+offset_top = 256.0
+offset_right = 480.0
+offset_bottom = 424.0
 texture_normal = ExtResource("3_btxxm")
 texture_hover = ExtResource("4_wb0q5")
 ignore_texture_size = true
@@ -83,36 +121,58 @@ stretch_mode = 0
 
 [node name="Label" type="Label" parent="PlayButton" unique_id=618833109]
 layout_mode = 0
-offset_left = 80.0
-offset_top = 58.0
-offset_right = 226.0
-offset_bottom = 91.0
+offset_left = 70.0
+offset_top = 53.0
+offset_right = 235.0
+offset_bottom = 107.0
 text = "Challenge"
-label_settings = ExtResource("5_q85j6")
+label_settings = SubResource("LabelSettings_n4uci")
 horizontal_alignment = 1
 
-[node name="QuitButton" type="TextureButton" parent="." unique_id=1170522634]
+[node name="TutorialButton" type="TextureButton" parent="." unique_id=1170522634]
 layout_mode = 0
-offset_left = 864.0
-offset_top = 440.0
-offset_right = 1128.0
-offset_bottom = 592.0
+offset_left = 192.0
+offset_top = 392.0
+offset_right = 456.0
+offset_bottom = 544.0
 texture_normal = ExtResource("6_8g5eo")
 texture_hover = ExtResource("7_btxxm")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="Label" type="Label" parent="QuitButton" unique_id=1892417918]
+[node name="Label" type="Label" parent="TutorialButton" unique_id=1892417918]
 layout_mode = 0
-offset_left = 95.0
-offset_top = 53.0
-offset_right = 161.0
-offset_bottom = 92.0
+offset_left = 59.0
+offset_top = 50.0
+offset_right = 201.0
+offset_bottom = 104.0
+text = "tutorial"
+label_settings = SubResource("LabelSettings_otr3d")
+horizontal_alignment = 1
+
+[node name="QuitButton2" type="TextureButton" parent="." unique_id=694365187]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 496.0
+offset_right = 456.0
+offset_bottom = 648.0
+texture_normal = ExtResource("6_8g5eo")
+texture_hover = ExtResource("7_btxxm")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="QuitButton2" unique_id=363892200]
+layout_mode = 0
+offset_left = 94.0
+offset_top = 51.0
+offset_right = 160.0
+offset_bottom = 93.0
 text = "Quit"
-label_settings = ExtResource("5_q85j6")
+label_settings = SubResource("LabelSettings_8ekit")
 horizontal_alignment = 1
 
 [node name="Splashscreen" type="ColorRect" parent="." unique_id=1887489093]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -188,5 +248,7 @@ stream = ExtResource("11_7suek")
 
 [connection signal="mouse_entered" from="PlayButton" to="." method="_on_button_mouse_entered"]
 [connection signal="pressed" from="PlayButton" to="." method="_on_play_button_pressed"]
-[connection signal="mouse_entered" from="QuitButton" to="." method="_on_button_mouse_entered"]
-[connection signal="pressed" from="QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="mouse_entered" from="TutorialButton" to="." method="_on_button_mouse_entered"]
+[connection signal="pressed" from="TutorialButton" to="." method="_on_tutorial_button_pressed"]
+[connection signal="mouse_entered" from="QuitButton2" to="." method="_on_button_mouse_entered"]
+[connection signal="pressed" from="QuitButton2" to="." method="_on_quit_button_pressed"]
