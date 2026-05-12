@@ -1,3 +1,4 @@
+# DEAD CODE — not referenced by any scene or script. Ring slots are handled by HandRingSlot in hand_display.gd.
 extends HBoxContainer
 
 signal ring_use_requested(ring_type: Enums.RingType)
@@ -184,6 +185,7 @@ class RingSlot extends Control:
 	var _dragging := false
 	var _drag_offset := Vector2.ZERO
 	var _pulse_time := 0.0
+	var _debug_printed := false
 
 	func _ready() -> void:
 		mouse_filter = Control.MOUSE_FILTER_STOP
@@ -260,13 +262,22 @@ class RingSlot extends Control:
 			var frac := float(cooldown) / float(max_cooldown)
 			_draw_cooldown_arc(center, radius - 2, frac, Color(0.1, 0.1, 0.15, 0.7))
 
-		var letter: String = ring_res.ring_letter
-		var letter_color := ring_color if count > 0 else ring_color.darkened(0.5)
-		if not active and count > 0:
-			letter_color = ring_color.darkened(0.3)
 		var font := ThemeDB.fallback_font
-		var lw := font.get_string_size(letter, HORIZONTAL_ALIGNMENT_LEFT, -1, 22).x
-		draw_string(font, Vector2(center.x - lw * 0.5, center.y + 8), letter, HORIZONTAL_ALIGNMENT_LEFT, -1, 22, letter_color)
+		var icon: Texture2D = ring_res.ring_icon
+		if not _debug_printed:
+			_debug_printed = true
+			print("[RingSlot] %s — ring_icon fetch: %s" % [ring_res.short_name, "SUCCESS (%s)" % icon.resource_path if icon else "NULL (no icon set)"])
+		if icon:
+			var icon_color := Color.WHITE if active else Color(0.6, 0.6, 0.6)
+			var icon_size := radius * 1.2
+			draw_texture_rect(icon, Rect2(center - Vector2(icon_size, icon_size) * 0.5, Vector2(icon_size, icon_size)), false, icon_color)
+		else:
+			var letter: String = ring_res.ring_letter
+			var letter_color := ring_color if count > 0 else ring_color.darkened(0.5)
+			if not active and count > 0:
+				letter_color = ring_color.darkened(0.3)
+			var lw := font.get_string_size(letter, HORIZONTAL_ALIGNMENT_LEFT, -1, 22).x
+			draw_string(font, Vector2(center.x - lw * 0.5, center.y + 8), letter, HORIZONTAL_ALIGNMENT_LEFT, -1, 22, letter_color)
 
 		# Count badge (bottom-right)
 		if count > 0:
@@ -278,7 +289,7 @@ class RingSlot extends Control:
 			var cw := font.get_string_size(count_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
 			draw_string(font, Vector2(badge_pos.x - cw * 0.5, badge_pos.y + 4), count_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color.WHITE)
 
-		# Cooldown number (center, over letter)
+		# Cooldown number (center, over icon)
 		if cooldown > 0:
 			var cd_str := str(cooldown)
 			var cd_color := Color(1.0, 0.4, 0.3)

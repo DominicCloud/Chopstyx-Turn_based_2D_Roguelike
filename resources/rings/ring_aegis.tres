@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="RingAegis" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="RingAegis" format=3 uid="uid://cmoqk3075gvcc"]
 
-[ext_resource type="Script" path="res://scripts/rings/ring_aegis.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://bcpaw8yv7s2ns" path="res://scripts/rings/ring_aegis.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://b622cc25vjtes" path="res://assets/ring icons/aegisIcon.png" id="2_icon"]
 
 [resource]
 script = ExtResource("1_script")
@@ -8,11 +9,10 @@ ring_name = "Ring of Aegis"
 short_name = "Aegis"
 description = "Select one of your hands. That hand cannot be attacked by Charon during his turn."
 cooldown = 2
-capacity = 2
 min_fingers_needed = 2
 finger_group = "MIDDLE"
 free_action = true
 ring_color = Color(0.3, 0.6, 1, 1)
 ring_letter = "E"
-target_mode = 0
+ring_icon = ExtResource("2_icon")
 target_prompt = "Select YOUR hand to protect"

@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="RingHermes" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="RingHermes" format=3 uid="uid://baq8onj2n6sft"]
 
-[ext_resource type="Script" path="res://scripts/rings/ring_hermes.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://dfsdflpuukruw" path="res://scripts/rings/ring_hermes.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://dkep4q5gt5pif" path="res://assets/ring icons/hermesIcon.png" id="2_icon"]
 
 [resource]
 script = ExtResource("1_script")
@@ -14,5 +15,6 @@ finger_group = "PINKY"
 free_action = true
 ring_color = Color(0.6, 0.2, 1, 1)
 ring_letter = "R"
+ring_icon = ExtResource("2_icon")
 target_mode = 2
 target_prompt = ""

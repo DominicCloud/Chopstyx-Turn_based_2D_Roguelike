@@ -314,13 +314,19 @@ func _draw_ring_card(index: int) -> void:
 	icon_border.a = (0.9 if is_hovered else 0.5) * _fade_alpha
 	_draw_circle_outline(icon_center, ICON_RADIUS, icon_border, 2.0)
 
-	# Ring letter
-	var letter: String = ring.ring_letter
-	var letter_size := 20
-	var lw := font.get_string_size(letter, HORIZONTAL_ALIGNMENT_LEFT, -1, letter_size).x
-	var letter_color := ring_color.lightened(0.25)
-	letter_color.a = _fade_alpha
-	draw_string(font, Vector2(icon_center.x - lw * 0.5, icon_center.y + 7), letter, HORIZONTAL_ALIGNMENT_LEFT, -1, letter_size, letter_color)
+	# Ring icon or letter fallback
+	var icon: Texture2D = ring.ring_icon
+	if icon:
+		var icon_color := Color(1.0, 1.0, 1.0, _fade_alpha)
+		var icon_size := ICON_RADIUS * 1.6
+		draw_texture_rect(icon, Rect2(icon_center - Vector2(icon_size, icon_size) * 0.5, Vector2(icon_size, icon_size)), false, icon_color)
+	else:
+		var letter: String = ring.ring_letter
+		var letter_size := 20
+		var lw := font.get_string_size(letter, HORIZONTAL_ALIGNMENT_LEFT, -1, letter_size).x
+		var letter_color := ring_color.lightened(0.25)
+		letter_color.a = _fade_alpha
+		draw_string(font, Vector2(icon_center.x - lw * 0.5, icon_center.y + 7), letter, HORIZONTAL_ALIGNMENT_LEFT, -1, letter_size, letter_color)
 
 	# Ring name
 	var name_text: String = ring.short_name

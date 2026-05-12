@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="RingHercules" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="RingHercules" format=3 uid="uid://66p2p6vjewq8"]
 
-[ext_resource type="Script" path="res://scripts/rings/ring_hercules.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://dk3ntdvd7x6md" path="res://scripts/rings/ring_hercules.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://b6disysv6nsx7" path="res://assets/ring icons/herculesIcon.png" id="2_icon"]
 
 [resource]
 script = ExtResource("1_script")
@@ -8,11 +9,10 @@ ring_name = "Ring of Hercules"
 short_name = "Hercules"
 description = "The hand this ring is equipped on will deal double damage."
 cooldown = 4
-capacity = 2
 min_fingers_needed = 3
 finger_group = "RING"
 free_action = true
 ring_color = Color(1, 0.4, 0, 1)
 ring_letter = "H"
-target_mode = 0
+ring_icon = ExtResource("2_icon")
 target_prompt = "Select YOUR hand for double damage"

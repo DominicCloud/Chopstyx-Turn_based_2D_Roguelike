@@ -244,7 +244,7 @@ func _draw() -> void:
 		return
 
 	# Title
-	var title := "SPLIT FINGERS"
+	var title := "REDISTRIBUTE FINGERS"
 	var title_w := UIConstants.FONT_TITLE.get_string_size(title, HORIZONTAL_ALIGNMENT_LEFT, -1, 26).x
 	draw_string(UIConstants.FONT_TITLE, Vector2((size.x - title_w) * 0.5, _boxes[0].position.y - 28 if _boxes.size() > 0 else 100), title, HORIZONTAL_ALIGNMENT_LEFT, -1, 26, Color(0.8, 0.85, 0.9, _fade_alpha))
 

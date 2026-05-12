@@ -11,6 +11,7 @@ extends Resource
 @export var free_action: bool = false
 @export var ring_color: Color
 @export var ring_letter: String
+@export var ring_icon: Texture2D
 
 enum TargetMode { SELF_HAND, OPPONENT_HAND, NO_TARGET, SPECIAL_DIALOG }
 @export var target_mode: TargetMode = TargetMode.SELF_HAND

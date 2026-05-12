@@ -1,0 +1,174 @@
+[gd_scene format=3 uid="uid://cmdt3xwgapgx4"]
+
+[ext_resource type="Script" uid="uid://bg7jv1rrx4cak" path="res://scripts/ui/menu_wo_splashscreen.gd" id="1_dnmb1"]
+[ext_resource type="FontFile" uid="uid://df8usrbon6ji0" path="res://assets/fonts/title_norse/Norsebold.otf" id="2_uhagc"]
+[ext_resource type="Texture2D" uid="uid://gj6gnxdb7ujq" path="res://assets/menu_page_ai.png" id="2_wb0q5"]
+[ext_resource type="Texture2D" uid="uid://cmjdrppjrku0" path="res://assets/UI/buttons/main_btn_body.png" id="3_btxxm"]
+[ext_resource type="Texture2D" uid="uid://dxcdxel6g0tpg" path="res://assets/bg_art/menu_art.png" id="3_otr3d"]
+[ext_resource type="Texture2D" uid="uid://cxidio08xu7bt" path="res://assets/UI/buttons/main_btn_full.png" id="4_wb0q5"]
+[ext_resource type="Texture2D" uid="uid://ccqaqpkfutjej" path="res://assets/UI/buttons/scnd_btn_body.png" id="6_8g5eo"]
+[ext_resource type="Texture2D" uid="uid://bcory1sahvouh" path="res://assets/UI/buttons/scnd_btn_full.png" id="7_btxxm"]
+[ext_resource type="AudioStream" uid="uid://bblr8m48sycch" path="res://assets/audio/bg_wind.mp3" id="10_5j7hh"]
+[ext_resource type="AudioStream" uid="uid://dy336lsmhin6y" path="res://assets/audio/game_start.mp3" id="10_8g5eo"]
+[ext_resource type="AudioStream" uid="uid://7fhombjwfm00" path="res://assets/audio/button_hover.mp3" id="11_7suek"]
+[ext_resource type="AudioStream" uid="uid://bktj4wwxm07f" path="res://assets/audio/bg_water.mp3" id="11_y7dvm"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_7suek"]
+font = ExtResource("2_uhagc")
+font_size = 175
+outline_color = Color(0.101960786, 0.10980392, 0.10980392, 1)
+shadow_size = 14
+shadow_color = Color(0.11764706, 0.1254902, 0.1254902, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_n4uci"]
+font = ExtResource("2_uhagc")
+font_size = 42
+shadow_size = 4
+shadow_color = Color(0, 0, 0, 0.76862746)
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="LabelSettings" id="LabelSettings_otr3d"]
+font = ExtResource("2_uhagc")
+font_size = 38
+shadow_size = 4
+shadow_color = Color(0, 0, 0, 0.76862746)
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="LabelSettings" id="LabelSettings_8ekit"]
+font = ExtResource("2_uhagc")
+font_size = 38
+shadow_size = 4
+shadow_color = Color(0, 0, 0, 0.76862746)
+shadow_offset = Vector2(2, 2)
+
+[node name="menu_wo_splashscreen" type="Control" unique_id=1527937563]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dnmb1")
+
+[node name="bg_AI" type="TextureRect" parent="." unique_id=1196752149]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 437.33337
+offset_bottom = 250.66669
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("2_wb0q5")
+expand_mode = 1
+
+[node name="bg_art" type="TextureRect" parent="." unique_id=408925764]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 437.33337
+offset_bottom = 250.66669
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_otr3d")
+expand_mode = 1
+
+[node name="Chopstyx" type="Label" parent="." unique_id=546443121]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 72.0
+offset_right = 757.0
+offset_bottom = 326.0
+text = "Chopstyx"
+label_settings = SubResource("LabelSettings_7suek")
+
+[node name="PlayButton" type="TextureButton" parent="." unique_id=662771724]
+layout_mode = 0
+offset_left = 168.0
+offset_top = 256.0
+offset_right = 480.0
+offset_bottom = 424.0
+texture_normal = ExtResource("3_btxxm")
+texture_hover = ExtResource("4_wb0q5")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="PlayButton" unique_id=618833109]
+layout_mode = 0
+offset_left = 70.0
+offset_top = 53.0
+offset_right = 235.0
+offset_bottom = 107.0
+text = "Challenge"
+label_settings = SubResource("LabelSettings_n4uci")
+horizontal_alignment = 1
+
+[node name="TutorialButton" type="TextureButton" parent="." unique_id=1170522634]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 392.0
+offset_right = 456.0
+offset_bottom = 544.0
+texture_normal = ExtResource("6_8g5eo")
+texture_hover = ExtResource("7_btxxm")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="TutorialButton" unique_id=1892417918]
+layout_mode = 0
+offset_left = 59.0
+offset_top = 50.0
+offset_right = 201.0
+offset_bottom = 104.0
+text = "tutorial"
+label_settings = SubResource("LabelSettings_otr3d")
+horizontal_alignment = 1
+
+[node name="QuitButton2" type="TextureButton" parent="." unique_id=694365187]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 496.0
+offset_right = 456.0
+offset_bottom = 648.0
+texture_normal = ExtResource("6_8g5eo")
+texture_hover = ExtResource("7_btxxm")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="QuitButton2" unique_id=363892200]
+layout_mode = 0
+offset_left = 94.0
+offset_top = 51.0
+offset_right = 160.0
+offset_bottom = 93.0
+text = "Quit"
+label_settings = SubResource("LabelSettings_8ekit")
+horizontal_alignment = 1
+
+[node name="bg_wind" type="AudioStreamPlayer" parent="." unique_id=1824769849]
+stream = ExtResource("10_5j7hh")
+autoplay = true
+bus = &"Music"
+
+[node name="bg_water" type="AudioStreamPlayer" parent="." unique_id=1522087492]
+stream = ExtResource("11_y7dvm")
+autoplay = true
+bus = &"SFX"
+
+[node name="on_play" type="AudioStreamPlayer" parent="." unique_id=1118499601]
+stream = ExtResource("10_8g5eo")
+bus = &"SFX"
+
+[node name="button_hover" type="AudioStreamPlayer" parent="." unique_id=749066953]
+stream = ExtResource("11_7suek")
+
+[connection signal="mouse_entered" from="PlayButton" to="." method="_on_button_mouse_entered"]
+[connection signal="pressed" from="PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="mouse_entered" from="TutorialButton" to="." method="_on_button_mouse_entered"]
+[connection signal="pressed" from="TutorialButton" to="." method="_on_tutorial_button_pressed"]
+[connection signal="mouse_entered" from="QuitButton2" to="." method="_on_button_mouse_entered"]
+[connection signal="pressed" from="QuitButton2" to="." method="_on_quit_button_pressed"]

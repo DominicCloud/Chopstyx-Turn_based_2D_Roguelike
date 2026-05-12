@@ -18,7 +18,7 @@ func _play_from_silence(player: AudioStreamPlayer) -> void:
 	create_tween().tween_property(player, "volume_db", 0.0, 1.5)
 func _on_retry_button_pressed() -> void:
 	await Fade.fade_out().finished
-	get_tree().change_scene_to_file("res://scenes/screens/main.tscn")
+	get_tree().change_scene_to_file("res://scenes/main.tscn")
 
 
 func _on_quit_button_pressed() -> void:

@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="RingMidas" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="RingMidas" format=3 uid="uid://c2r0mjek8v77i"]
 
-[ext_resource type="Script" path="res://scripts/rings/ring_midas.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://dpwck2to1raug" path="res://scripts/rings/ring_midas.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://dq0h4bqs0bu44" path="res://assets/ring icons/midasIcon.png" id="2_icon"]
 
 [resource]
 script = ExtResource("1_script")
@@ -8,11 +9,11 @@ ring_name = "Ring of Midas"
 short_name = "Midas"
 description = "Select one of Charon's hands. During Charon's turn, he will attack that hand with one of his hands."
 cooldown = 4
-capacity = 2
 min_fingers_needed = 3
 finger_group = "RING"
 free_action = true
 ring_color = Color(1, 0.7, 0.2, 1)
 ring_letter = "D"
+ring_icon = ExtResource("2_icon")
 target_mode = 1
 target_prompt = "Select Charon's hand to mark for attack"

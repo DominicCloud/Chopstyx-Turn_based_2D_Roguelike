@@ -323,7 +323,7 @@ func use_ring(ring_type: Enums.RingType, context: Dictionary) -> bool:
 
 func _apply_ring_cost(ring_type: Enums.RingType) -> void:
 	var ring = Enums.RING_RESOURCES[ring_type]
-	ring_cooldowns[ring_type] = ring.cooldown
+	ring_cooldowns[ring_type] = ring.cooldown + 1
 	rings_changed.emit()
 
 # === TURN MANAGEMENT ===

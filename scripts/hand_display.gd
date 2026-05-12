@@ -330,7 +330,7 @@ func _update_ring_slot_data() -> void:
 		var slot: HandRingSlot = _ring_slots[i]
 		if found >= 0:
 			var rt := found as Enums.RingType
-			slot.set_ring(rt, GameState.ring_cooldowns.get(rt, 0), Enums.RING_RESOURCES[rt].cooldown)
+			slot.set_ring(rt, GameState.ring_cooldowns.get(rt, 0), Enums.RING_RESOURCES[rt].cooldown + 1)
 		else:
 			slot.set_empty()
 
@@ -483,6 +483,7 @@ class HandRingSlot extends Control:
 	var _hovered := false
 	var _pulse_time := 0.0
 	var _tooltip: Control = null
+	var _debug_printed := false
 
 	func _ready() -> void:
 		mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -640,17 +641,24 @@ class HandRingSlot extends Control:
 		if is_cooling:
 			_draw_cooldown_arc(center, RADIUS - 2.0, float(cooldown) / float(max_cooldown), Color(0.08, 0.08, 0.12, 0.72))
 
-		var letter: String = ring_res.ring_letter
+		if not _debug_printed:
+			_debug_printed = true
+			var icon = ring_res.ring_icon
+			print("[HandRingSlot] %s — ring_icon fetch: %s" % [ring_res.short_name, "SUCCESS (%s)" % icon.resource_path if icon else "NULL"])
+		var icon: Texture2D = ring_res.ring_icon
 		var font := ThemeDB.fallback_font
-		if not is_cooling:
-			var lw := font.get_string_size(letter, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
-			draw_string(font, Vector2(center.x - lw * 0.5, center.y + 6.0), letter, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, display_color.lightened(0.1))
+		if icon:
+			var icon_color := Color.WHITE if not is_cooling else Color(0.42, 0.42, 0.48, 0.55)
+			var icon_size := RADIUS * 1.2
+			draw_texture_rect(icon, Rect2(center - Vector2(icon_size, icon_size) * 0.5, Vector2(icon_size, icon_size)), false, icon_color)
 		else:
-			# Greyed letter sits behind the number as a subtle hint
+			var letter: String = ring_res.ring_letter
+			var letter_color := display_color.lightened(0.1) if not is_cooling else Color(0.42, 0.42, 0.48, 0.55)
 			var lw := font.get_string_size(letter, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
-			draw_string(font, Vector2(center.x - lw * 0.5, center.y + 6.0), letter, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.42, 0.42, 0.48, 0.55))
-			# Large Norse number fills the circle
-			var cd_str := str(cooldown)
+			draw_string(font, Vector2(center.x - lw * 0.5, center.y + 6.0), letter, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, letter_color)
+
+		if is_cooling:
+			var cd_str := str(cooldown - 1)
 			var cd_font := UIConstants.FONT_TITLE
 			const CD_SIZE := 28
 			var cdw := cd_font.get_string_size(cd_str, HORIZONTAL_ALIGNMENT_LEFT, -1, CD_SIZE).x

@@ -1,6 +1,6 @@
 extends Control
 
-@onready var sections: Array[Control] = [$attack, $defeat, $split, $victory]
+@onready var sections: Array[Control] = [$attack, $split, $defeat, $victory]
 
 var _current := 0
 var _can_advance := false
@@ -44,7 +44,7 @@ func _advance() -> void:
 
 	if _current >= sections.size():
 		await Fade.fade_out().finished
-		get_tree().change_scene_to_file("res://scenes/ui/main_menu.tscn")
+		get_tree().change_scene_to_file("res://scenes/ui/menu_wo_splashscrn.tscn")
 		return
 
 	_transitioning = false

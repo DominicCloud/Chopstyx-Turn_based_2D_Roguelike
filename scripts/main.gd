@@ -45,13 +45,6 @@ var _hit_animating := false
 # === INITIALIZATION ===
 
 func _ready() -> void:
-	var bg := TextureRect.new()
-	bg.texture = load("res://assets/bg_art/game_art_2.png")
-	bg.stretch_mode = TextureRect.STRETCH_SCALE
-	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(bg)
-	move_child(bg, 0)
-	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
 
 	await Fade.fade_in(.2).finished
 	GameState.reset_game()

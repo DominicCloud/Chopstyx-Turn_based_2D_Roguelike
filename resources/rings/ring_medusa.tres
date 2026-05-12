@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="RingMedusa" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="RingMedusa" format=3 uid="uid://jd0bna2cgcnu"]
 
-[ext_resource type="Script" path="res://scripts/rings/ring_medusa.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://ce762idi15txk" path="res://scripts/rings/ring_medusa.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://crifyopeby1pa" path="res://assets/ring icons/medusaIcon.png" id="2_icon"]
 
 [resource]
 script = ExtResource("1_script")
@@ -8,11 +9,11 @@ ring_name = "Ring of Medusa"
 short_name = "Medusa"
 description = "Select one of Charon's hands. Charon cannot use that hand for splitting or attacking."
 cooldown = 2
-capacity = 2
 min_fingers_needed = 2
 finger_group = "MIDDLE"
 free_action = true
 ring_color = Color(0.2, 0.4, 1, 1)
 ring_letter = "M"
+ring_icon = ExtResource("2_icon")
 target_mode = 1
 target_prompt = "Select Charon's hand to stun"

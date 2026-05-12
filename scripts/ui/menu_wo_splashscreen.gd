@@ -2,8 +2,7 @@ extends Control
 
 @onready var play_button: TextureButton = $PlayButton
 @onready var quit_button: TextureButton = $QuitButton
-@onready var splashscreen: ColorRect = $Splashscreen
-#@onready var all_black: ColorRect = $all_black
+
 # Audio
 @onready var menu_bg: AudioStreamPlayer = $bg_wind
 @onready var menu_bg_water: AudioStreamPlayer = $bg_water
@@ -15,11 +14,7 @@ func _ready() -> void:
 	menu_bg.playing = false
 	menu_bg_water.playing = false
 	await get_tree().process_frame # important on first launch
-	await Fade.fade_in(1.5).finished
-	await get_tree().create_timer(2.0).timeout
-	Fade.crossfade_prepare(1.5)
-	Fade.crossfade_execute()
-	splashscreen.queue_free()
+	await Fade.fade_in(0.7).finished
 
 	# begin bg_music
 	menu_bg.volume_db = -80 # Start quiet

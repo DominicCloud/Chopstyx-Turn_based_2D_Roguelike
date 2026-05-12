@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="RingPandora" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="RingPandora" format=3 uid="uid://bdoj1b1m3vxq7"]
 
-[ext_resource type="Script" path="res://scripts/rings/ring_pandora.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://bmh1ddwrpkkch" path="res://scripts/rings/ring_pandora.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://ddbhyp1sgpj51" path="res://assets/ring icons/pandoraIcon.png" id="2_icon"]
 
 [resource]
 script = ExtResource("1_script")
@@ -14,5 +15,6 @@ finger_group = "PINKY"
 free_action = true
 ring_color = Color(1, 0.3, 0.8, 1)
 ring_letter = "P"
+ring_icon = ExtResource("2_icon")
 target_mode = 3
 target_prompt = ""
