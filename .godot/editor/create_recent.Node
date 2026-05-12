@@ -1,0 +1,14 @@
+TextureRect
+AudioStreamPlayer
+ColorRect
+Control
+Label
+TextureButton
+Node
+Button
+Sprite2D
+Panel
+HBoxContainer
+VBoxContainer
+MarginContainer
+VideoStreamPlayer

@@ -2,6 +2,8 @@
 /*
 
 # Track only these
+!/.godot/
+!/addons/
 !/assets/
 !/resources/
 !/scenes/
