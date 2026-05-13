@@ -1,31 +1,76 @@
-[gd_scene load_steps=2 format=3 uid="uid://daction_bar_scene"]
+[gd_scene format=3 uid="uid://clbmtam7l2hls"]
 
-[ext_resource type="Script" path="res://scripts/ui/action_bar.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://bh4wvxy3xu45l" path="res://scripts/ui/action_bar.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://ccqaqpkfutjej" path="res://assets/UI/buttons/scnd_btn_body.png" id="2_dxf4g"]
+[ext_resource type="Texture2D" uid="uid://bcory1sahvouh" path="res://assets/UI/buttons/scnd_btn_full.png" id="3_yuk8s"]
+[ext_resource type="FontFile" uid="uid://df8usrbon6ji0" path="res://assets/fonts/title_norse/Norsebold.otf" id="4_k7vts"]
 
-[node name="ActionBar" type="HBoxContainer"]
-layout_mode = 2
+[sub_resource type="LabelSettings" id="LabelSettings_m53oo"]
+font = ExtResource("4_k7vts")
+font_size = 12
+shadow_size = 4
+shadow_color = Color(0, 0, 0, 0.76862746)
+
+[node name="ActionBar" type="HBoxContainer" unique_id=154890084]
 theme_override_constants/separation = 16
 alignment = 1
 script = ExtResource("1_script")
 
-[node name="ActionButtons" type="VBoxContainer" parent="."]
+[node name="ActionButtons" type="VBoxContainer" parent="." unique_id=2065847775]
 layout_mode = 2
 theme_override_constants/separation = 6
 alignment = 1
 
-[node name="ButtonRow" type="HBoxContainer" parent="ActionButtons"]
+[node name="ButtonRow" type="HBoxContainer" parent="ActionButtons" unique_id=1405636586]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/separation = 8
 alignment = 1
 
-[node name="SplitButton" type="Button" parent="ActionButtons/ButtonRow"]
+[node name="Split" type="TextureButton" parent="ActionButtons/ButtonRow" unique_id=1889119612]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(90, 36)
+custom_minimum_size = Vector2(180, 72)
 layout_mode = 2
-text = "Split"
+size_flags_horizontal = 3
+texture_normal = ExtResource("2_dxf4g")
+texture_hover = ExtResource("3_yuk8s")
+ignore_texture_size = true
+stretch_mode = 0
 
-[node name="CancelButton" type="Button" parent="ActionButtons/ButtonRow"]
+[node name="Label" type="Label" parent="ActionButtons/ButtonRow/Split" unique_id=480042907]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Split"
+label_settings = SubResource("LabelSettings_m53oo")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CancelButton" type="TextureButton" parent="ActionButtons/ButtonRow" unique_id=1762537154]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(90, 36)
+custom_minimum_size = Vector2(180, 72)
 layout_mode = 2
+size_flags_horizontal = 3
+texture_normal = ExtResource("2_dxf4g")
+texture_hover = ExtResource("3_yuk8s")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="ActionButtons/ButtonRow/CancelButton" unique_id=1762537155]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
 text = "Cancel"
+label_settings = SubResource("LabelSettings_m53oo")
+horizontal_alignment = 1
+vertical_alignment = 1

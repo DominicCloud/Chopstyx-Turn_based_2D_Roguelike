@@ -24,6 +24,7 @@ const RingEffectClass := preload("res://scripts/rings/ring_effect.gd")
 
 const WinDialogScene := "res://scenes/ui/win_dialog.tscn"
 const LoseDialogScene := "res://scenes/ui/lose_dialog.tscn"
+@onready var home_button: TextureButton = $TextureButton
 
 var ring_select_panel: Control
 
@@ -567,3 +568,8 @@ func _clear_highlights() -> void:
 func _set_all_hands_not_selectable() -> void:
 	for display: Control in hand_displays.values():
 		display.set_selectable(false)
+
+
+func _on_home_button_pressed() -> void:
+	await Fade.fade_out().finished
+	get_tree().change_scene_to_file("res://scenes/ui/menu_wo_splashscrn.tscn")

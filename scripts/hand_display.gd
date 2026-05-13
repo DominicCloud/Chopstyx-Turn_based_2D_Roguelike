@@ -320,6 +320,7 @@ func _update_ring_slot_data() -> void:
 	if hand_data.get("owner", Enums.Owner.PLAYER) != Enums.Owner.PLAYER:
 		return
 	var rings: Array = hand_data.get("rings", [])
+	var hand_fingers: int = hand_data.get("fingers", 0)
 	for i in 4:
 		var group: String = FINGER_GROUPS[i]
 		var found: int = -1
@@ -330,7 +331,7 @@ func _update_ring_slot_data() -> void:
 		var slot: HandRingSlot = _ring_slots[i]
 		if found >= 0:
 			var rt := found as Enums.RingType
-			slot.set_ring(rt, GameState.ring_cooldowns.get(rt, 0), Enums.RING_RESOURCES[rt].cooldown + 1)
+			slot.set_ring(rt, GameState.ring_cooldowns.get(rt, 0), Enums.RING_RESOURCES[rt].cooldown + 1, hand_fingers)
 		else:
 			slot.set_empty()
 
@@ -480,6 +481,7 @@ class HandRingSlot extends Control:
 	var cooldown := 0
 	var max_cooldown := 1
 	var interactable := false
+	var insufficient_fingers := false
 	var _hovered := false
 	var _pulse_time := 0.0
 	var _tooltip: Control = null
@@ -492,7 +494,7 @@ class HandRingSlot extends Control:
 		tree_exiting.connect(_remove_tooltip)
 
 	func _process(delta: float) -> void:
-		if interactable and has_ring and cooldown == 0:
+		if interactable and has_ring and cooldown == 0 and not insufficient_fingers:
 			_pulse_time += delta * 3.0
 			queue_redraw()
 
@@ -511,11 +513,12 @@ class HandRingSlot extends Control:
 				_remove_tooltip()
 			queue_redraw()
 
-	func set_ring(p_ring_type: Enums.RingType, p_cd: int, p_max_cd: int) -> void:
+	func set_ring(p_ring_type: Enums.RingType, p_cd: int, p_max_cd: int, p_hand_fingers: int = 4) -> void:
 		has_ring = true
 		ring_type = p_ring_type
 		cooldown = p_cd
 		max_cooldown = maxi(1, p_max_cd)
+		insufficient_fingers = p_hand_fingers < Enums.RING_RESOURCES[p_ring_type].min_fingers_needed
 		queue_redraw()
 
 	func set_empty() -> void:
@@ -531,6 +534,7 @@ class HandRingSlot extends Control:
 		var ring_res = Enums.RING_RESOURCES[ring_type]
 		var ring_color: Color = ring_res.ring_color
 		var is_cooling := cooldown > 0
+		var is_unusable := is_cooling or insufficient_fingers
 
 		var w := 220.0
 		var panel := PanelContainer.new()
@@ -538,7 +542,7 @@ class HandRingSlot extends Control:
 		panel.z_index = 1000
 		var style := StyleBoxFlat.new()
 		style.bg_color = Color(0.07, 0.07, 0.11, 0.96)
-		style.border_color = ring_color.lightened(0.2) if not is_cooling else Color(0.45, 0.45, 0.5)
+		style.border_color = ring_color.lightened(0.2) if not is_unusable else Color(0.45, 0.45, 0.5)
 		style.set_border_width_all(2)
 		style.set_corner_radius_all(7)
 		style.set_content_margin_all(9)
@@ -567,6 +571,13 @@ class HandRingSlot extends Control:
 		info_label.add_theme_font_size_override("font_size", 9)
 		info_label.add_theme_color_override("font_color", Color(1.0, 0.8, 0.3))
 		vbox.add_child(info_label)
+
+		if insufficient_fingers:
+			var fingers_label := Label.new()
+			fingers_label.text = "Not enough fingers to use"
+			fingers_label.add_theme_font_size_override("font_size", 9)
+			fingers_label.add_theme_color_override("font_color", Color(1.0, 0.4, 0.35))
+			vbox.add_child(fingers_label)
 
 		if is_cooling:
 			var cd_label := Label.new()
@@ -602,7 +613,7 @@ class HandRingSlot extends Control:
 		if event is InputEventMouseButton:
 			var mb := event as InputEventMouseButton
 			if mb.button_index == MOUSE_BUTTON_LEFT and mb.pressed:
-				if interactable and has_ring and cooldown == 0:
+				if interactable and has_ring and cooldown == 0 and not insufficient_fingers:
 					clicked.emit(ring_type)
 					get_viewport().set_input_as_handled()
 
@@ -616,25 +627,26 @@ class HandRingSlot extends Control:
 		var ring_res = Enums.RING_RESOURCES[ring_type]
 		var ring_color: Color = ring_res.ring_color
 		var is_cooling := cooldown > 0
-		var display_color := ring_color if not is_cooling else Color(0.35, 0.35, 0.4)
+		var is_unusable := is_cooling or insufficient_fingers
+		var display_color := ring_color if not is_unusable else Color(0.35, 0.35, 0.4)
 
-		if interactable and not is_cooling:
+		if interactable and not is_unusable:
 			var pulse := (sin(_pulse_time) + 1.0) * 0.5
 			var glow := ring_color
 			glow.a = 0.15 + pulse * 0.15
 			draw_circle(center, RADIUS + 7.0, glow)
 
 		var bg := Color(0.08, 0.08, 0.12)
-		if _hovered and interactable and not is_cooling:
+		if _hovered and interactable and not is_unusable:
 			bg = bg.lightened(0.18)
 		draw_circle(center, RADIUS, bg)
 
 		var border := display_color
 		var bw := 2.0
-		if _hovered and interactable and not is_cooling:
+		if _hovered and interactable and not is_unusable:
 			border = border.lightened(0.35)
 			bw = 2.5
-		elif interactable and not is_cooling:
+		elif interactable and not is_unusable:
 			border = border.lightened(0.1)
 		_draw_outline(center, RADIUS, border, bw)
 
@@ -648,12 +660,12 @@ class HandRingSlot extends Control:
 		var icon: Texture2D = ring_res.ring_icon
 		var font := ThemeDB.fallback_font
 		if icon:
-			var icon_color := Color.WHITE if not is_cooling else Color(0.42, 0.42, 0.48, 0.55)
+			var icon_color := Color.WHITE if not is_unusable else Color(0.42, 0.42, 0.48, 0.55)
 			var icon_size := RADIUS * 1.2
 			draw_texture_rect(icon, Rect2(center - Vector2(icon_size, icon_size) * 0.5, Vector2(icon_size, icon_size)), false, icon_color)
 		else:
 			var letter: String = ring_res.ring_letter
-			var letter_color := display_color.lightened(0.1) if not is_cooling else Color(0.42, 0.42, 0.48, 0.55)
+			var letter_color := display_color.lightened(0.1) if not is_unusable else Color(0.42, 0.42, 0.48, 0.55)
 			var lw := font.get_string_size(letter, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
 			draw_string(font, Vector2(center.x - lw * 0.5, center.y + 6.0), letter, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, letter_color)
 

@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cu41hjlrr4b7w" path="res://assets/tutorial_pages/split.png" id="3_nrihu"]
 [ext_resource type="Texture2D" uid="uid://bwlaqjl5v7pi5" path="res://assets/tutorial_pages/victory.png" id="4_egd42"]
 [ext_resource type="Texture2D" uid="uid://dxcdxel6g0tpg" path="res://assets/bg_art/menu_art.png" id="6_nrihu"]
+[ext_resource type="AudioStream" uid="uid://dm4nv0ifcrab6" path="res://assets/audio/tut_music.mp3" id="7_egd42"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ysljr"]
 load_path = "res://.godot/imported/attack.png-5e48a3d680e9ea8e2d3cfc2d3a0d7216.ctex"
@@ -40,13 +41,15 @@ expand_mode = 1
 
 [node name="Label" type="Label" parent="attack" unique_id=593955788]
 layout_mode = 0
-offset_left = 720.00006
-offset_top = 791.99994
-offset_right = 1271.0
-offset_bottom = 860.0
+offset_left = 696.00006
+offset_top = 799.99994
+offset_right = 1247.0
+offset_bottom = 910.99994
 rotation = -1.5707964
-text = "Attacking a hand adds to its total"
+text = "Attacking a hand 
+adds your value to target's total"
 label_settings = ExtResource("1_4de72")
+horizontal_alignment = 1
 
 [node name="defeat" type="TextureRect" parent="." unique_id=983143867]
 visible = false
@@ -61,13 +64,15 @@ expand_mode = 1
 
 [node name="Label2" type="Label" parent="defeat" unique_id=1207769351]
 layout_mode = 0
-offset_left = 576.0
+offset_left = 552.0
 offset_top = 568.0
-offset_right = 1194.0
-offset_bottom = 622.0
+offset_right = 1170.0
+offset_bottom = 679.0
 rotation = -1.5707964
-text = "When a hand reaches 5 fingers, it dies"
+text = "When a hand reaches 
+exactly 5 fingers, it dies"
 label_settings = ExtResource("1_4de72")
+horizontal_alignment = 1
 
 [node name="split" type="TextureRect" parent="." unique_id=285380022]
 visible = false
@@ -112,3 +117,7 @@ offset_bottom = 726.0
 rotation = -1.5707964
 text = "Kill all of Charon's hands to win"
 label_settings = ExtResource("1_4de72")
+
+[node name="bg_music_tut" type="AudioStreamPlayer" parent="." unique_id=281841092]
+stream = ExtResource("7_egd42")
+autoplay = true

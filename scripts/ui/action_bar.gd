@@ -3,8 +3,8 @@ extends HBoxContainer
 signal split_pressed
 signal cancel_pressed
 
-@onready var split_button: Button = %SplitButton
-@onready var cancel_button: Button = %CancelButton
+@onready var split_button: TextureButton = %Split
+@onready var cancel_button: TextureButton = %CancelButton
 
 
 func _ready() -> void:

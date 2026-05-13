@@ -23,7 +23,7 @@ func _on_retry_button_pressed() -> void:
 
 func _on_quit_button_pressed() -> void:
 	await Fade.fade_out().finished
-	get_tree().quit()
+	get_tree().change_scene_to_file("res://scenes/ui/menu_wo_splashscrn.tscn")
 	
 func _on_button_hover() -> void:
 	button_hover.play()

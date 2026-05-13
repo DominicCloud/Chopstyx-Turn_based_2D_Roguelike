@@ -5,10 +5,11 @@
 [ext_resource type="Shader" uid="uid://ol1q5d0mqyll" path="res://assets/bg_gradient.gdshader" id="3_shader"]
 [ext_resource type="PackedScene" uid="uid://ctwrhp115npqu" path="res://scenes/split_panel.tscn" id="4_split"]
 [ext_resource type="PackedScene" path="res://scenes/ui/top_bar.tscn" id="5_topbar"]
-[ext_resource type="PackedScene" path="res://scenes/ui/action_bar.tscn" id="6_actionbar"]
+[ext_resource type="PackedScene" uid="uid://clbmtam7l2hls" path="res://scenes/ui/action_bar.tscn" id="6_actionbar"]
 [ext_resource type="PackedScene" path="res://scenes/ui/action_log.tscn" id="7_actionlog"]
 [ext_resource type="PackedScene" uid="uid://kfayfyx3sop4" path="res://scenes/ui/game_over_dialog.tscn" id="8_gameover"]
-[ext_resource type="PackedScene" path="res://scenes/ui/audio_manager.tscn" id="9_audio"]
+[ext_resource type="PackedScene" uid="uid://caf603ffmp62e" path="res://scenes/ui/audio_manager.tscn" id="9_audio"]
+[ext_resource type="Texture2D" uid="uid://uccvomjdrdu0" path="res://assets/icons/house.png" id="10_choun"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bg"]
 shader = ExtResource("3_shader")
@@ -100,9 +101,9 @@ alignment = 1
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.78
-offset_left = 40.0
+offset_left = 354.39996
 offset_top = 318.0
-offset_right = -20.0
+offset_right = -334.39996
 offset_bottom = 322.0
 
 [node name="StatusLabel" type="Label" parent="." unique_id=1552191782]
@@ -189,3 +190,15 @@ one_shot = true
 
 [node name="AudioManager" parent="." unique_id=1589962744 instance=ExtResource("9_audio")]
 unique_name_in_owner = true
+
+[node name="Home Button" type="TextureButton" parent="." unique_id=907397732]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 16.0
+offset_right = 96.0
+offset_bottom = 97.0
+texture_normal = ExtResource("10_choun")
+ignore_texture_size = true
+stretch_mode = 0
+
+[connection signal="pressed" from="Home Button" to="." method="_on_home_button_pressed"]

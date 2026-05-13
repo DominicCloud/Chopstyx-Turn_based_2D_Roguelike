@@ -1,6 +1,7 @@
 extends Control
 
 @onready var sections: Array[Control] = [$attack, $split, $defeat, $victory]
+@onready var bg_music_tut: AudioStreamPlayer = $bg_music_tut
 
 var _current := 0
 var _can_advance := false
@@ -43,6 +44,8 @@ func _advance() -> void:
 	_current += 1
 
 	if _current >= sections.size():
+		var fade_music = create_tween()
+		fade_music.tween_property(bg_music_tut, "volume_db", -80.0, 1.0)
 		await Fade.fade_out().finished
 		get_tree().change_scene_to_file("res://scenes/ui/menu_wo_splashscrn.tscn")
 		return
